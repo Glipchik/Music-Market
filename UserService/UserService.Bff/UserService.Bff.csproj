@@ -6,4 +6,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
     
+    <ItemGroup>
+        <PackageReference Include="Duende.BFF" Version="2.2.0" />
+        <PackageReference Include="Duende.BFF.Yarp" Version="2.2.0" />
+    </ItemGroup>
+
 </Project>
