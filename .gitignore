@@ -52,3 +52,13 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Ignore global.json
+global.json
+
+# Identity Server
+**/UserService.IdentityServer/keys/

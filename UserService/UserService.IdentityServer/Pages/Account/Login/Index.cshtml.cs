@@ -1,3 +1,4 @@
+using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
 using Microsoft.AspNetCore.Authentication;
@@ -5,13 +6,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using UserService.Business.Abstractions;
 using UserService.Business.Entities;
+using UserService.Business.Services;
 
 namespace UserService.IdentityServer.Pages.Account.Login;
 
 [SecurityHeaders]
 [AllowAnonymous]
 public class Index(
+    IAccountService accountService,
     IIdentityServerInteractionService interaction,
     IAuthenticationSchemeProvider schemeProvider,
     IIdentityProviderStore identityProviderStore,
@@ -38,46 +42,44 @@ public class Index(
             ReturnUrl = returnUrl
         };
 
-        View = new ViewModel
-        {
-            AllowRememberLogin = LoginOptions.AllowRememberLogin,
-            EnableLocalLogin = LoginOptions.AllowLocalLogin,
-        };
+        View = new ViewModel();
     }
 
     public async Task<IActionResult> OnPost()
     {
-        if (!ModelState.IsValid)
+        var context = await interaction.GetAuthorizationContextAsync(Input.ReturnUrl);
+
+        if (Input.Button != "login")
         {
-            return Page();
-        }
-
-        var result = await signInManager.PasswordSignInAsync(
-            Input.Username!, 
-            Input.Password!, 
-            isPersistent: false, 
-            lockoutOnFailure: false
-        );
-
-        if (result.Succeeded)
-        {
-            var context = await interaction.GetAuthorizationContextAsync(Input.ReturnUrl);
-
             if (context != null)
             {
-                return Redirect(Input.ReturnUrl!);
-            }
+                ArgumentNullException.ThrowIfNull(Input.ReturnUrl, nameof(Input.ReturnUrl));
+                await interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
 
-            if (Url.IsLocalUrl(Input.ReturnUrl))
-            {
-                return Redirect(Input.ReturnUrl!);
+                return context.IsNativeClient() ? this.LoadingPage(Input.ReturnUrl) : Redirect(Input.ReturnUrl ?? "~/");
             }
 
             return Redirect("~/");
         }
 
-        ModelState.AddModelError(string.Empty, "Invalid username or password");
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
+
+        var result = await accountService.LoginAsync(
+            Input.Username!,
+            Input.Password!,
+            Input.ReturnUrl,
+            Url.IsLocalUrl);
+
+        if (result.Success)
+        {
+            return Redirect(result.RedirectUrl!);
+        }
+
+        ModelState.AddModelError(string.Empty, result.ErrorMessage!);
+        BuildModel(Input.ReturnUrl);
         return Page();
     }
-
 }
