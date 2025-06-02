@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>AnalyticsService.Business</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="14.0.0" />
+      <PackageReference Include="MassTransit" Version="8.5.0-develop.2304" />
+      <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+      <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.3.1" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.0-develop.2304" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\Shared.csproj" />
+    </ItemGroup>
+
+<!--    <ItemGroup>-->
+<!--        <ProjectReference Include="..\Shared\Shared.csproj" />-->
+<!--    </ItemGroup>-->
+
+</Project>
