@@ -1,4 +1,6 @@
+using Duende.Bff;
 using Duende.Bff.Yarp;
+using UserService.Bff;
 using UserService.Bff.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddBff()
     .AddRemoteApis();
+builder.Services.AddTransient<IReturnUrlValidator, FrontendHostReturnUrlValidator>();
 
 Configuration config = new();
 builder.Configuration.Bind("BFF", config);
@@ -30,7 +33,8 @@ builder.Services.AddAuthentication(options =>
     {
         options.Cookie.Name = "__Host-bff";
         options.Cookie.SameSite = SameSiteMode.None;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
     })
     .AddOpenIdConnect("oidc", options =>
     {
@@ -40,9 +44,10 @@ builder.Services.AddAuthentication(options =>
     
         options.ResponseType = "code";
         options.ResponseMode = "query";
-    
+        
         options.GetClaimsFromUserInfoEndpoint = true;
-       
+        options.MapInboundClaims = false;
+        options.DisableTelemetry = true;
         options.SaveTokens = true;
     
         options.Scope.Clear();
