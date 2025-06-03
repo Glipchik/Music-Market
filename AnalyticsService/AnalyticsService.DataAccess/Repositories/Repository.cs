@@ -1,4 +1,4 @@
-using AnalyticsService.Business.Abstractions;
+using AnalyticsService.DataAccess.Abstractions;
 using AnalyticsService.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 

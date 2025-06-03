@@ -1,6 +1,6 @@
-using AnalyticsService.Business.Abstractions;
-using AnalyticsService.Business.Entities;
+using AnalyticsService.DataAccess.Abstractions;
 using AnalyticsService.DataAccess.Data;
+using AnalyticsService.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnalyticsService.DataAccess.Repositories;

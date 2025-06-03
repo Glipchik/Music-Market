@@ -1,4 +1,4 @@
-using AnalyticsService.Business.Entities;
+using AnalyticsService.DataAccess.Entities;
 using AnalyticsService.DataAccess.EntityTypeConfigurations;
 using Microsoft.EntityFrameworkCore;
 
