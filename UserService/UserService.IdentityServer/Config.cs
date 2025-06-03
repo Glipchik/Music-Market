@@ -23,12 +23,13 @@ public static class Config
             ClientId = "bff_client",
             ClientName = "BFF Client",
             ClientSecrets = { new Secret("secret".Sha256()) },
-
+            
             AllowedGrantTypes = GrantTypes.Code,
             RequirePkce = true,
 
             RedirectUris = { "https://localhost:5000/signin-oidc" },
-            PostLogoutRedirectUris = { "http://localhost:4200" },
+            FrontChannelLogoutUri = "https://localhost:5000/signout-oidc",
+            PostLogoutRedirectUris = { "https://localhost:5000/signout-callback-oidc" },
 
             AllowedScopes =
             {
