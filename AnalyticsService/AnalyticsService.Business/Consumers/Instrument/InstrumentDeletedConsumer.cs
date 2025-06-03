@@ -1,4 +1,4 @@
-using AnalyticsService.Business.Abstractions;
+using AnalyticsService.DataAccess.Abstractions;
 using MassTransit;
 using Shared.Messaging.Contracts.Events.Instrument;
 

@@ -1,6 +1,6 @@
 using AnalyticsService.Business.Abstractions;
-using AnalyticsService.Business.Entities;
 using AnalyticsService.Business.Models;
+using AnalyticsService.DataAccess.Abstractions;
 using AutoMapper;
 using Shared.Exceptions;
 

@@ -1,5 +1,5 @@
-using AnalyticsService.Business.Entities;
 using AnalyticsService.Business.Models;
+using AnalyticsService.DataAccess.Entities;
 using AutoMapper;
 
 namespace AnalyticsService.Business.Mapping;
