@@ -1,4 +1,5 @@
 @page
+@using UserService.Business.Constants
 @model UserService.IdentityServer.Pages.Grants.Index
 @{
 }
@@ -35,7 +36,7 @@
                         </div>
 
                         <div class="col-sm-2">
-                            <form asp-page="/Grants/Index">
+                            <form asp-page=@RouteConstants.GrantsIndex>
                                 <input type="hidden" name="clientId" value="@grant.ClientId">
                                 <button class="btn btn-danger">Revoke Access</button>
                             </form>

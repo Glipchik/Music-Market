@@ -1,4 +1,5 @@
 @page
+@using UserService.Business.Constants
 @model UserService.IdentityServer.Pages.Consent.Index
 @{
 }
@@ -24,7 +25,7 @@
         </div>
     </div>
 
-    <form asp-page="/Consent/Index">
+    <form asp-page="@RouteConstants.ConsentIndex">
         <input type="hidden" asp-for="Input.ReturnUrl"/>
         <div class="row">
             <div class="col-sm-8">

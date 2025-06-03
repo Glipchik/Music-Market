@@ -2,6 +2,7 @@ using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using UserService.Business.Constants;
 
 namespace UserService.IdentityServer.Pages;
 
@@ -32,7 +33,7 @@ public static class Extensions
         page.HttpContext.Response.StatusCode = 200;
         page.HttpContext.Response.Headers.Location = "";
 
-        return page.RedirectToPage("/Redirect/Index", new { RedirectUri = redirectUri });
+        return page.RedirectToPage(RouteConstants.RedirectIndex, new { RedirectUri = redirectUri });
     }
 
     /// <summary>

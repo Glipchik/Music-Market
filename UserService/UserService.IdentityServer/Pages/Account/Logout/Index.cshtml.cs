@@ -1,12 +1,8 @@
-using Duende.IdentityModel;
-using Duende.IdentityServer.Events;
-using Duende.IdentityServer.Extensions;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UserService.Business.Abstractions;
-using UserService.IdentityServer.Pages.Logout;
+using UserService.Business.Constants;
 
 namespace UserService.IdentityServer.Pages.Account.Logout;
 
@@ -33,28 +29,11 @@ public class Index(IAccountService accountService)
 
     public async Task<IActionResult> OnPost()
     {
-        LogoutId ??= null;
-
-        var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
-        
-        var externalSignOutSupported = false;
-
-        if (!string.IsNullOrEmpty(idp) && idp != Duende.IdentityServer.IdentityServerConstants.LocalIdentityProvider)
-        {
-            externalSignOutSupported = await HttpContext.GetSchemeSupportsSignOutAsync(idp);
-        }
-
         var result = await accountService.LogoutAsync(
             User,
             LogoutId,
-            externalSignOutSupported,
-            routeValues => Url.Page("/Account/Logout/LoggedOut", routeValues)!);
-
-        if (result.RequiresExternalSignOut)
-        {
-            return SignOut(new AuthenticationProperties { RedirectUri = result.RedirectUrl }, result.ExternalScheme!);
-        }
-
+            routeValues => Url.Page(RouteConstants.AccountLoggedOut, routeValues)!);
+        
         return Redirect(result.RedirectUrl);
     }
 }
