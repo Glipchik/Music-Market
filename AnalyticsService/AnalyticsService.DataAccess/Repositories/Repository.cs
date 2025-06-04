@@ -4,11 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnalyticsService.DataAccess.Repositories;
 
-public class Repository<T>(ApplicationDbContext context) : IRepository<T>
+internal abstract class Repository<T>(ApplicationDbContext context) : IRepository<T>
     where T : class
 {
     protected readonly DbSet<T> DbSet = context.Set<T>();
-
     public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await DbSet.FindAsync([id, cancellationToken], cancellationToken);
