@@ -1,5 +1,6 @@
 @page
-@model UserService.IdentityServer.Pages.Logout.Index
+@using UserService.Business.Constants
+@model UserService.IdentityServer.Pages.Account.Logout.Index
 
 <div class="logout-page">
     <div class="lead">
@@ -7,7 +8,7 @@
         <p>Would you like to logout of IdentityServer?</p>
     </div>
 
-    <form asp-page="/Account/Logout/Index">
+    <form asp-page="@RouteConstants.AccountLogout">
         <input type="hidden" name="logoutId" value="@Model.LogoutId"/>
 
         <div class="form-group">

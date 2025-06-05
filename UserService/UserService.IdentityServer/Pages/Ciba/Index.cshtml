@@ -1,4 +1,5 @@
 @page
+@using UserService.Business.Constants
 @model UserService.IdentityServer.Pages.Ciba.IndexModel
 @{
 }
@@ -25,7 +26,7 @@
             Do you wish to continue?
         </p>
         <div>
-            <a class="btn btn-primary" asp-page="/Ciba/Consent" asp-route-id="@Model.LoginRequest.InternalId">Yes, Continue</a>
+            <a class="btn btn-primary" asp-page="@RouteConstants.CibaConsent" asp-route-id="@Model.LoginRequest.InternalId">Yes, Continue</a>
         </div>
 
     </div>

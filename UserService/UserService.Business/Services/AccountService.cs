@@ -103,42 +103,17 @@ public class AccountService(
     public async Task<LogoutResult> LogoutAsync(
         ClaimsPrincipal user,
         string? logoutId,
-        bool externalSignOutSupported,
         Func<object, string> redirectUrlBuilder)
     {
-        if (user.Identity?.IsAuthenticated != true)
-        {
-            return new LogoutResult
-            (
-                RequiresExternalSignOut: false,
-                RedirectUrl: redirectUrlBuilder(new { logoutId })
-            );
-        }
-
         logoutId ??= await interaction.CreateLogoutContextAsync();
 
-        await signInManager.SignOutAsync();
-
-        var idp = user.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
-
-        if (string.IsNullOrEmpty(idp) ||
-            idp == Duende.IdentityServer.IdentityServerConstants.LocalIdentityProvider ||
-            !externalSignOutSupported)
+        if (user.Identity is { IsAuthenticated: true })
         {
-            return new LogoutResult
-            (
-                RequiresExternalSignOut: false,
-                RedirectUrl: redirectUrlBuilder(new { logoutId })
-            );
+            await signInManager.SignOutAsync();
         }
-
-        var redirectUrl = redirectUrlBuilder(new { logoutId });
         
-        return new LogoutResult
-        (
-            RequiresExternalSignOut: true,
-            ExternalScheme: idp,
-            RedirectUrl: redirectUrl
+        return new LogoutResult(
+            RedirectUrl: redirectUrlBuilder(new { logoutId })
         );
     }
 }

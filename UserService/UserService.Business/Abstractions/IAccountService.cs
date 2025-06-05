@@ -15,6 +15,5 @@ public interface IAccountService
     Task<LogoutResult> LogoutAsync(
         ClaimsPrincipal user,
         string? logoutId,
-        bool externalSignOutSupported,
         Func<object, string> redirectUrlBuilder);
 }
