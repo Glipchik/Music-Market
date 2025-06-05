@@ -4,7 +4,7 @@ using AnalyticsService.DataAccess.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddBusinessServices();
+builder.Services.AddBusinessServices(builder.Configuration);
 builder.Services.AddDataAccessServices(builder.Configuration);
 
 builder.Services.AddControllers();
