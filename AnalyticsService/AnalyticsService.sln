@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D8CD811-CA17-4754-9614-B34CB03AE81B}"
 	ProjectSection(SolutionItems) = preProject
 		..\docker-compose.yml = ..\docker-compose.yml
+		..\.env = ..\.env
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticsService.DataAccess", "AnalyticsService.DataAccess\AnalyticsService.DataAccess.csproj", "{13AC0C48-2CD3-4503-BC87-B96E688199FB}"
