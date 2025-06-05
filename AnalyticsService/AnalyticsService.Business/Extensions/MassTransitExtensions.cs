@@ -1,14 +1,18 @@
 using AnalyticsService.Business.Consumers.Instrument;
 using AnalyticsService.Business.Consumers.User;
+using AnalyticsService.Business.Options;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AnalyticsService.Business.Extensions;
 
 public static class MassTransitExtensions
 {
-    public static IServiceCollection AddMessaging(this IServiceCollection services)
+    public static IServiceCollection AddMessaging(this IServiceCollection services, IConfiguration configuration)
     {
+        var rabbitMqOptions = configuration.GetSection(nameof(RabbitMqOptions)).Get<RabbitMqOptions>()!;
+
         services.AddMassTransit(options =>
         {
             options.AddConsumer<InstrumentDeletedConsumer>();
@@ -18,31 +22,31 @@ public static class MassTransitExtensions
         
             options.AddConsumer<UserInstrumentCreatedConsumer>();
             options.AddConsumer<UserLoggedInConsumer>();
-        
-            options.UsingRabbitMq((context, configuration) =>
+            
+            options.UsingRabbitMq((context, config) =>
             {
-                configuration.Host("localhost", "/", hostConfigurator =>
+                config.Host(rabbitMqOptions.Host, "/", hostConfigurator =>
                 {
-                    hostConfigurator.Username("guest");
-                    hostConfigurator.Password("guest");
+                    hostConfigurator.Username(rabbitMqOptions.User);
+                    hostConfigurator.Password(rabbitMqOptions.Password);
                 });
         
-                configuration.ReceiveEndpoint("analytics-instrument-deleted", endpoint =>
+                config.ReceiveEndpoint("analytics-instrument-deleted", endpoint =>
                     endpoint.ConfigureConsumer<InstrumentDeletedConsumer>(context));
         
-                configuration.ReceiveEndpoint("analytics-instrument-viewed", endpoint =>
+                config.ReceiveEndpoint("analytics-instrument-viewed", endpoint =>
                     endpoint.ConfigureConsumer<InstrumentViewedConsumer>(context));
         
-                configuration.ReceiveEndpoint("analytics-instrument-bookmarked", endpoint =>
+                config.ReceiveEndpoint("analytics-instrument-bookmarked", endpoint =>
                     endpoint.ConfigureConsumer<InstrumentBookmarkedConsumer>(context));
         
-                configuration.ReceiveEndpoint("analytics-instrument-contact-viewed", endpoint =>
+                config.ReceiveEndpoint("analytics-instrument-contact-viewed", endpoint =>
                     endpoint.ConfigureConsumer<InstrumentContactViewedConsumer>(context));
         
-                configuration.ReceiveEndpoint("analytics-user-logged-in", endpoint =>
+                config.ReceiveEndpoint("analytics-user-logged-in", endpoint =>
                     endpoint.ConfigureConsumer<UserLoggedInConsumer>(context));
         
-                configuration.ReceiveEndpoint("analytics-user-instrument-viewed", endpoint =>
+                config.ReceiveEndpoint("analytics-user-instrument-viewed", endpoint =>
                     endpoint.ConfigureConsumer<UserInstrumentCreatedConsumer>(context));
             });
         });
