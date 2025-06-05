@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnalyticsService.DataAccess.Repositories;
 
-public class InstrumentDailyStatRepository(ApplicationDbContext context)
+internal class InstrumentDailyStatRepository(ApplicationDbContext context)
     : Repository<InstrumentDailyStat>(context), IInstrumentDailyStatRepository
 {
     public async Task<List<InstrumentDailyStat>> GetByDateRangeAsync(Guid instrumentId, DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken)

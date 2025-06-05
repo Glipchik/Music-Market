@@ -4,4 +4,4 @@ using AnalyticsService.DataAccess.Entities;
 
 namespace AnalyticsService.DataAccess.Repositories;
 
-public class UserStatRepository(ApplicationDbContext context) : Repository<UserStat>(context), IUserStatRepository;
+internal class UserStatRepository(ApplicationDbContext context) : Repository<UserStat>(context), IUserStatRepository;

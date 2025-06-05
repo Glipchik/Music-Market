@@ -4,7 +4,7 @@ using Shared.Exceptions;
 
 namespace AnalyticsService.DataAccess.Repositories;
 
-public class UnitOfWork(
+internal class UnitOfWork(
     ApplicationDbContext context, 
     IInstrumentDailyStatRepository instrumentDailyStatRepository,
     IInstrumentStatRepository instrumentStatRepository,
