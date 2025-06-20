@@ -1,3 +1,3 @@
 namespace Shared.Messaging.Contracts.Events.User;
 
-public record UserLoggedIn(Guid UserId);
+public record UserLoggedIn(string UserId);
