@@ -37,7 +37,40 @@ services:
       - "5433:5432"
     volumes:
       - analytics-db-data:/var/lib/postgresql/data
+  
+  instrument-db:
+    image: mongo:latest
+    container_name: mongodb_container
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_DEFAULT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_DEFAULT_PASS}
+    volumes:
+      - instrument-db_data:/data/db
+    restart: always
+  
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   users-db-data:
   analytics-db-data:
+  instrument-db_data:
+  minio-data:
