@@ -1,3 +1,3 @@
 namespace Shared.Messaging.Contracts.Events.User;
 
-public record UserInstrumentCreated(Guid UserId);
+public record UserInstrumentCreated(string UserId);
