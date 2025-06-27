@@ -39,7 +39,7 @@ public class TokenService(HttpClient httpClient, IOptions<ClientCredentialsOptio
         return new TokenResponseModel(tokenResponse.AccessToken, tokenResponse.ExpiresIn);
     }
 
-    public Task InvalidateCachedTokenAsync()
+    public Task InvalidateCachedTokenAsync(CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }

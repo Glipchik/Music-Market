@@ -5,5 +5,5 @@ namespace InstrumentService.DataAccess.Abstractions;
 public interface ITokenService
 {
     Task<TokenResponseModel> GetAccessTokenAsync(CancellationToken cancellationToken);
-    Task InvalidateCachedTokenAsync(); 
+    Task InvalidateCachedTokenAsync(CancellationToken cancellationToken); 
 }
