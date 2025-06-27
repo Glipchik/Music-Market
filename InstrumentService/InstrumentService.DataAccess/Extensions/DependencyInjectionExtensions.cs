@@ -1,11 +1,16 @@
 using InstrumentService.DataAccess.Abstractions;
 using InstrumentService.DataAccess.Clients.Analytics;
 using InstrumentService.DataAccess.Clients.User;
+using InstrumentService.DataAccess.Http.Handlers;
+using InstrumentService.DataAccess.Http.Policies;
 using InstrumentService.DataAccess.Options;
 using InstrumentService.DataAccess.Repositories;
+using InstrumentService.DataAccess.Services;
 using InstrumentService.DataAccess.Storage;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Minio;
 using MongoDB.Driver;
 
@@ -16,6 +21,13 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddDataAccessServices(this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.Configure<RedisOptions>(configuration.GetSection(nameof(RedisOptions)));
+        services.Configure<ClientCredentialsOptions>(configuration.GetSection(nameof(ClientCredentialsOptions)));
+
+        var redisOptions = configuration.GetSection(nameof(RedisOptions)).Get<RedisOptions>();
+        if (redisOptions is null)
+            throw new InvalidOperationException("RedisOptions section is missing or invalid.");
+
         var analyticsClientOptions = configuration.GetSection(nameof(AnalyticsClientOptions)).Get<AnalyticsClientOptions>();
         if (analyticsClientOptions is null)
             throw new InvalidOperationException("AnalyticsClientOptions section is missing or invalid.");
@@ -24,11 +36,39 @@ public static class DependencyInjectionExtensions
         if (userClientOptions is null)
             throw new InvalidOperationException("UserClientOptions section is missing or invalid.");
 
+        var authOptions = configuration.GetSection(nameof(AuthOptions)).Get<AuthOptions>();
+        if (authOptions is null)
+            throw new InvalidOperationException("AuthOptions section is missing or invalid.");
+
+        services.AddStackExchangeRedisCache(options => { options.Configuration = redisOptions.Configuration; });
+
+        services.AddTransient<AccessTokenHandler>();
+
         services.AddHttpClient<IAnalyticsClient, AnalyticsClient>(client =>
-            client.BaseAddress = new Uri(analyticsClientOptions.BaseAddress));
+                client.BaseAddress = new Uri(analyticsClientOptions.BaseAddress))
+            .AddHttpMessageHandler<AccessTokenHandler>()
+            .AddPolicyHandler(PollyPolicies.GetRetryPolicy())
+            .AddPolicyHandler(PollyPolicies.GetTimeoutPolicy())
+            .AddPolicyHandler(PollyPolicies.GetCircuitBreakerPolicy());
 
         services.AddHttpClient<IUserClient, UserClient>(client =>
-            client.BaseAddress = new Uri(userClientOptions.BaseAddress));
+                client.BaseAddress = new Uri(userClientOptions.BaseAddress))
+            .AddHttpMessageHandler<AccessTokenHandler>()
+            .AddPolicyHandler(PollyPolicies.GetRetryPolicy())
+            .AddPolicyHandler(PollyPolicies.GetTimeoutPolicy())
+            .AddPolicyHandler(PollyPolicies.GetCircuitBreakerPolicy());
+
+        services.AddHttpClient<TokenService>(client =>
+            client.BaseAddress = new Uri(authOptions.Authority));
+
+        services.AddScoped<ITokenService>(sp =>
+        {
+            var tokenService = sp.GetRequiredService<TokenService>();
+            var cache = sp.GetRequiredService<IDistributedCache>();
+            var redisCacheOptions = sp.GetRequiredService<IOptions<RedisOptions>>();
+
+            return new CachedTokenService(tokenService, cache, redisCacheOptions);
+        });
 
         var mongoOptions = configuration.GetSection(nameof(InstrumentDbOptions)).Get<InstrumentDbOptions>()!;
         services.AddSingleton<IMongoClient>(_ => new MongoClient(mongoOptions.ConnectionString));

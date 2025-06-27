@@ -10,21 +10,22 @@ internal class MinioCloudStorage(IMinioClient minioClient, IOptions<MinioOptions
 {
     private readonly MinioOptions _minioOptions = minioOptions.Value;
 
-    public async Task<string> UploadFileAsync(string fileName, Stream content, string contentType,
+    public async Task<string> UploadFileAsync(string fileName, string folder, Stream content, string contentType,
         CancellationToken cancellationToken)
     {
         var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
+        var objectPath = $"{folder}/{uniqueFileName}";
 
         var args = new PutObjectArgs()
             .WithBucket(_minioOptions.BucketName)
-            .WithObject(uniqueFileName)
+            .WithObject(objectPath)
             .WithStreamData(content)
             .WithObjectSize(content.Length)
             .WithContentType(contentType);
 
         await minioClient.PutObjectAsync(args, cancellationToken);
 
-        return uniqueFileName;
+        return objectPath;
     }
 
     public async Task DeleteFileAsync(string fileName, CancellationToken cancellationToken)
