@@ -10,31 +10,31 @@ public class Seeder(
 {
     public async Task SeedInstrumentTypes()
     {
-        var instrumentTypes = new List<InstrumentType>()
+        var instrumentTypes = new List<InstrumentType>
         {
             new()
             {
                 Id = "guitar",
                 Label = "Guitar",
-                IconPath = "assets/icons/guitar2.svg"
+                IconPath = "http://localhost:9000/instrument-photos/icons/guitar.svg"
             },
             new()
             {
                 Id = "piano",
                 Label = "Piano",
-                IconPath = "assets/icons/piano.svg"
+                IconPath = "http://localhost:9000/instrument-photos/icons/piano.svg"
             },
             new()
             {
                 Id = "drum",
                 Label = "Drums",
-                IconPath = "assets/icons/drums.svg"
+                IconPath = "http://localhost:9000/instrument-photos/icons/drums.svg"
             },
             new()
             {
                 Id = "cello",
                 Label = "Cello",
-                IconPath = "assets/icons/cello.svg"
+                IconPath = "http://localhost:9000/instrument-photos/icons/cello.svg"
             }
         };
         await instrumentTypeRepository.UpsertAsync(instrumentTypes, CancellationToken.None);
@@ -308,7 +308,7 @@ public class Seeder(
                     Type = "select",
                     IsRequired = true,
                     DefaultValue = "Maple",
-                    Options = ["Maple", "Birch", "Mahogany", "Poplar", "Oak", "Acrylic"], // Основные варианты + акрил
+                    Options = ["Maple", "Birch", "Mahogany", "Poplar", "Oak", "Acrylic"],
                     Placeholder = "Select shell material"
                 },
                 new FormFieldDescriptor
