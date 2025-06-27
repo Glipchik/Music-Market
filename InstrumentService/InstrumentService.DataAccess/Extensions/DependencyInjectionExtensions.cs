@@ -16,11 +16,13 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddDataAccessServices(this IServiceCollection services,
         IConfiguration configuration)
     {
-        var analyticsClientOptions = configuration.GetSection(nameof(AnalyticsClientOptions))
-            .Get<AnalyticsClientOptions>()!;
+        var analyticsClientOptions = configuration.GetSection(nameof(AnalyticsClientOptions)).Get<AnalyticsClientOptions>();
+        if (analyticsClientOptions is null)
+            throw new InvalidOperationException("AnalyticsClientOptions section is missing or invalid.");
 
-        var userClientOptions = configuration.GetSection(nameof(UserClientOptions))
-            .Get<UserClientOptions>()!;
+        var userClientOptions = configuration.GetSection(nameof(UserClientOptions)).Get<UserClientOptions>();
+        if (userClientOptions is null)
+            throw new InvalidOperationException("UserClientOptions section is missing or invalid.");
 
         services.AddHttpClient<IAnalyticsClient, AnalyticsClient>(client =>
             client.BaseAddress = new Uri(analyticsClientOptions.BaseAddress));
