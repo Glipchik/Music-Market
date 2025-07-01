@@ -58,17 +58,10 @@ public static class DependencyInjectionExtensions
             .AddPolicyHandler(PollyPolicies.GetTimeoutPolicy())
             .AddPolicyHandler(PollyPolicies.GetCircuitBreakerPolicy());
 
-        services.AddHttpClient<TokenService>(client =>
+        services.AddHttpClient<ITokenService, TokenService>(client =>
             client.BaseAddress = new Uri(authOptions.Authority));
 
-        services.AddScoped<ITokenService>(sp =>
-        {
-            var tokenService = sp.GetRequiredService<TokenService>();
-            var cache = sp.GetRequiredService<IDistributedCache>();
-            var redisCacheOptions = sp.GetRequiredService<IOptions<RedisOptions>>();
-
-            return new CachedTokenService(tokenService, cache, redisCacheOptions);
-        });
+        services.Decorate<ITokenService, CachedTokenServiceDecorator>();
 
         var mongoOptions = configuration.GetSection(nameof(InstrumentDbOptions)).Get<InstrumentDbOptions>()!;
         services.AddSingleton<IMongoClient>(_ => new MongoClient(mongoOptions.ConnectionString));

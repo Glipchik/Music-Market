@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace InstrumentService.DataAccess.Services;
 
-public class CachedTokenService(
+public class CachedTokenServiceDecorator(
     ITokenService innerTokenService,
     IDistributedCache distributedCache,
     IOptions<RedisOptions> redisOptions) : ITokenService
