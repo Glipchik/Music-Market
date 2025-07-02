@@ -14,7 +14,7 @@ public interface IInstrumentService
     Task UpdateAsync(string? userId, string instrumentId, InstrumentRequestModel request,
         CancellationToken cancellationToken);
 
-    Task DeleteAsync(string? userId, string instrumentId, CancellationToken cancellationToken);
+    Task<string> DeleteAsync(string? userId, string instrumentId, CancellationToken cancellationToken);
     Task<List<InstrumentTypeResponseModel>> GetTypesAsync(CancellationToken cancellationToken);
     Task<List<FormFieldDescriptorResponseModel>> GetFieldsByTypeAsync(string type, CancellationToken cancellationToken);
 
