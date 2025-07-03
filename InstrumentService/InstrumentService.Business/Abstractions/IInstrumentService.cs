@@ -9,7 +9,7 @@ public interface IInstrumentService
     Task<InstrumentResponseModel> GetByIdAsync(string id, CancellationToken cancellationToken);
     Task<List<InstrumentResponseModel>> GetAllAsync(CancellationToken cancellationToken);
     Task<List<InstrumentResponseModel>> GetTopAsync(int limit, CancellationToken cancellationToken);
-    Task CreateAsync(string? userId, InstrumentRequestModel requestModel, CancellationToken cancellationToken);
+    Task<InstrumentResponseModel> CreateAsync(string? userId, InstrumentRequestModel requestModel, CancellationToken cancellationToken);
 
     Task UpdateAsync(string? userId, string instrumentId, InstrumentRequestModel request,
         CancellationToken cancellationToken);
