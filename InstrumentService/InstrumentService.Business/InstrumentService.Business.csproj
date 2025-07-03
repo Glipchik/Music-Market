@@ -7,11 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Abstractions\" />
-      <Folder Include="Extensions\" />
-      <Folder Include="Mapping\" />
-      <Folder Include="Models\" />
-      <Folder Include="Services\" />
+      <ProjectReference Include="..\..\Shared\Shared.csproj" />
+      <ProjectReference Include="..\InstrumentService.DataAccess\InstrumentService.DataAccess.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="14.0.0" />
+      <PackageReference Include="MassTransit.Abstractions" Version="8.5.0-develop.2304" />
     </ItemGroup>
 
 </Project>
