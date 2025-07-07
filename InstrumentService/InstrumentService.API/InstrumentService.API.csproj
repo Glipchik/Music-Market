@@ -22,8 +22,4 @@
       <ProjectReference Include="..\InstrumentService.Business\InstrumentService.Business.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="docker-compose.yml" />
-    </ItemGroup>
-
 </Project>
