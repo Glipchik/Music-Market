@@ -3,7 +3,7 @@ using InstrumentService.DataAccess.Constants;
 
 namespace InstrumentService.Business.Models.Request;
 
-[JsonPolymorphic(TypeDiscriminatorPropertyName = "Type")]
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(GuitarRequestModel), InstrumentTypes.Guitar)]
 [JsonDerivedType(typeof(PianoRequestModel), InstrumentTypes.Piano)]
 [JsonDerivedType(typeof(CelloRequestModel), InstrumentTypes.Cello)]
