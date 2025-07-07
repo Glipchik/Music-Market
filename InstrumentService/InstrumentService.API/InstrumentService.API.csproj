@@ -4,18 +4,26 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="DotNetEnv" Version="3.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.17" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="MassTransit" Version="8.5.0-develop.2304"/>
+        <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1"/>
+        <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.3.1"/>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.0-develop.2304"/>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\Shared.csproj" />
+      <ProjectReference Include="..\InstrumentService.Business\InstrumentService.Business.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Middlewares\" />
+      <None Remove="docker-compose.yml" />
     </ItemGroup>
 
 </Project>
