@@ -1,11 +1,11 @@
-using System.Text.Json;
+using System.Net.Http.Json;
 using InstrumentService.Business.Models.Request;
 
 namespace InstrumentService.IntegrationTests.Factories;
 
 public static class GuitarRequestJsonFactory
 {
-    public static string CreateFromGuitarModel(GuitarRequestModel model)
+    public static JsonContent CreateFromGuitarModel(GuitarRequestModel model)
     {
         var payload = new
         {
@@ -23,6 +23,6 @@ public static class GuitarRequestJsonFactory
             model.NutWidth
         };
 
-        return JsonSerializer.Serialize(payload);
+        return JsonContent.Create(payload);
     }
 }
