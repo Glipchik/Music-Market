@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using InstrumentService.API.Constants;
 using InstrumentService.Business.Abstractions;
 using InstrumentService.Business.Models;
 using InstrumentService.Business.Models.Request;
@@ -13,9 +14,11 @@ namespace InstrumentService.API.Controllers;
 public class InstrumentsController(IInstrumentService instrumentService, IFileService fileService) : ControllerBase
 {
     [HttpGet]
-    public async Task<List<InstrumentResponseModel>> GetAll(CancellationToken cancellationToken)
+    public async Task<PaginatedModel<InstrumentResponseModel>> GetPaged(CancellationToken cancellationToken,
+        [FromQuery] int page = PaginationDefaults.DefaultPageNumber,
+        [FromQuery] int pageSize = PaginationDefaults.DefaultPageSize)
     {
-        var response = await instrumentService.GetAllAsync(cancellationToken);
+        var response = await instrumentService.GetPagedAsync(page, pageSize, cancellationToken);
 
         return response;
     }
@@ -56,11 +59,14 @@ public class InstrumentsController(IInstrumentService instrumentService, IFileSe
 
     [HttpGet("my")]
     [Authorize(Policy = "ReadAccess")]
-    public async Task<List<UserInstrumentResponseModel>> GetAllUserInstruments(CancellationToken cancellationToken)
+    public async Task<PaginatedModel<UserInstrumentResponseModel>> GetPagedUserInstruments(
+        CancellationToken cancellationToken,
+        [FromQuery] int page = PaginationDefaults.DefaultPageNumber,
+        [FromQuery] int pageSize = PaginationDefaults.DefaultPageSize)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var response = await instrumentService
-            .GetAllUserInstrumentsAsync(userId, cancellationToken);
+            .GetPagedUserInstrumentsAsync(page, pageSize, userId, cancellationToken);
 
         return response;
     }
