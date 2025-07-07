@@ -41,18 +41,28 @@ public class InstrumentService(
         return instrumentModel;
     }
 
-    public async Task<List<InstrumentResponseModel>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<PaginatedModel<InstrumentResponseModel>> GetPagedAsync(int page, int pageSize,
+        CancellationToken cancellationToken)
     {
-        var instruments = await instrumentRepository.GetAllAsync(cancellationToken);
+        var skip = (page - 1) * pageSize;
+        var totalCount = await instrumentRepository.CountAsync(cancellationToken);
+
+        var instruments = await instrumentRepository.GetPagedAsync(skip, pageSize, cancellationToken);
 
         var instrumentTasks = instruments.Select(instrument =>
             instrumentResponseModelFactory.CreateAsync(instrument, cancellationToken));
 
         var instrumentModels = await Task.WhenAll(instrumentTasks);
 
-        return instrumentModels.ToList();
+        var paginatedInstrumentsModel = new PaginatedModel<InstrumentResponseModel>(
+            instrumentModels.ToList(),
+            totalCount,
+            page,
+            pageSize);
+
+        return paginatedInstrumentsModel;
     }
-    
+
     public async Task<List<InstrumentResponseModel>> GetTopAsync(int limit, CancellationToken cancellationToken)
     {
         var topInstruments = await analyticsClient.GetTopViewedInstrumentsAsync(limit, cancellationToken);
@@ -63,12 +73,12 @@ public class InstrumentService(
         var instrumentIds = topInstruments.Select(topInstrument => topInstrument.InstrumentId).ToList();
 
         var instruments = await instrumentRepository.GetByIdRangeAsync(instrumentIds, cancellationToken);
-        
+
         var instrumentTasks = instruments.Select(instrument =>
             instrumentResponseModelFactory.CreateAsync(instrument, cancellationToken));
 
         var instrumentModels = await Task.WhenAll(instrumentTasks);
-        
+
         var instrumentModelsList = instrumentModels.ToList();
 
         var instrumentModelDict = instrumentModelsList.ToDictionary(instrumentModel => instrumentModel.Id);
@@ -98,7 +108,7 @@ public class InstrumentService(
             await instrumentRepository.AddAsync(instrument, cancellationToken);
             var today = DateOnly.FromDateTime(DateTime.Now);
             await publishEndpoint.Publish(new InstrumentCreated(instrument.Id, today), cancellationToken);
-            
+
             var instrumentModel = await instrumentResponseModelFactory.CreateAsync(instrument, cancellationToken);
 
             return instrumentModel;
@@ -154,7 +164,8 @@ public class InstrumentService(
         return formFieldDescriptorModels;
     }
 
-    public async Task<List<UserInstrumentResponseModel>> GetAllUserInstrumentsAsync(string? userId,
+    public async Task<PaginatedModel<UserInstrumentResponseModel>> GetPagedUserInstrumentsAsync(int page, int pageSize,
+        string? userId,
         CancellationToken cancellationToken)
     {
         if (userId is null)
@@ -162,7 +173,10 @@ public class InstrumentService(
             throw new UnauthorizedException(ErrorMessages.UserIdIsMissing);
         }
 
-        var instruments = await instrumentRepository.GetByUserId(userId, cancellationToken);
+        var skip = (page - 1) * pageSize;
+        var totalCount = await instrumentRepository.CountByUserIdAsync(userId, cancellationToken);
+
+        var instruments = await instrumentRepository.GetPagedByUserId(skip, pageSize, userId, cancellationToken);
 
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var sevenDaysAgo = today.AddDays(-6);
@@ -199,7 +213,8 @@ public class InstrumentService(
                 }
                 catch (Exception exception)
                 {
-                    throw new HttpRequestException(ErrorMessages.FailedToFetchInstrumentStats(instrument.Id), exception);
+                    throw new HttpRequestException(ErrorMessages.FailedToFetchInstrumentStats(instrument.Id),
+                        exception);
                 }
             }
             finally
@@ -208,28 +223,34 @@ public class InstrumentService(
             }
         });
 
-        var userInstrumentResponseModels = await Task.WhenAll(tasks);
+        var userInstrumentModels = await Task.WhenAll(tasks);
 
-        return userInstrumentResponseModels.ToList();
+        var paginatedInstrumentsModel = new PaginatedModel<UserInstrumentResponseModel>(
+            userInstrumentModels.ToList(),
+            totalCount,
+            page,
+            pageSize);
+
+        return paginatedInstrumentsModel;
     }
 
     public async Task<UserContactsModel> GetOwnerContactsAsync(string instrumentId, CancellationToken cancellationToken)
     {
         var instrument = await instrumentRepository.GetByIdAsync(instrumentId, cancellationToken);
-        
+
         if (instrument is null)
         {
-            throw new NotFoundException(ErrorMessages.InstrumentNotFound(instrumentId));      
+            throw new NotFoundException(ErrorMessages.InstrumentNotFound(instrumentId));
         }
 
         var contact = await userClient.GetUserContactsAsync(instrument.OwnerId, cancellationToken);
         var contactModel = mapper.Map<UserContactsModel>(contact);
-        
+
         await publishEndpoint.Publish(new InstrumentContactViewed(instrumentId), cancellationToken);
-        
+
         return contactModel;
     }
-    
+
     public async Task<string> DeleteAsync(string? userId, string instrumentId, CancellationToken cancellationToken)
     {
         if (userId is null)
@@ -255,7 +276,7 @@ public class InstrumentService(
         }
 
         await instrumentRepository.DeleteAsync(instrumentId, cancellationToken);
-        
+
         await publishEndpoint.Publish(new InstrumentDeleted(instrumentId), cancellationToken);
 
         return instrumentId;
