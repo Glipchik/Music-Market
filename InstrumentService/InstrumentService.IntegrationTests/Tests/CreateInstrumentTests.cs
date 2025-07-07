@@ -1,8 +1,10 @@
+using System.Net;
+using System.Net.Http.Json;
 using FluentAssertions;
 using InstrumentService.DataAccess.Entities;
 using InstrumentService.IntegrationTests.Builders;
 using InstrumentService.IntegrationTests.Consumers;
-using InstrumentService.IntegrationTests.Extensions;
+using InstrumentService.IntegrationTests.Factories;
 using MassTransit.Testing;
 using MongoDB.Driver;
 using Shared.Messaging.Contracts.Events.Instrument;
@@ -17,10 +19,9 @@ public class CreateInstrumentTests(CustomWebApplicationFactory factory) : Instru
     {
         // Arrange
         var guitarModel = new GuitarRequestModelBuilder().Build();
-        var content = guitarModel.ToHttpContent();
+        var content = GuitarRequestJsonFactory.CreateFromGuitarModel(guitarModel);
 
         var filter = Builders<Instrument>.Filter.Eq(instrument => instrument.Name, guitarModel.Name);
-
 
         // Act
         var response = await Client.PostAsync("/instruments", content);
@@ -43,13 +44,12 @@ public class CreateInstrumentTests(CustomWebApplicationFactory factory) : Instru
     {
         // Arrange
         var guitarModel = new GuitarRequestModelBuilder().Build();
-        var content = guitarModel.ToHttpContent();
+        var content = GuitarRequestJsonFactory.CreateFromGuitarModel(guitarModel);
 
         var massTransitHarness = Factory.Services.GetTestHarness();
         await massTransitHarness.Start();
 
         var filter = Builders<Instrument>.Filter.Eq(instrument => instrument.Name, guitarModel.Name);
-
 
         // Act
         var response = await Client.PostAsync("/instruments", content);
@@ -77,5 +77,33 @@ public class CreateInstrumentTests(CustomWebApplicationFactory factory) : Instru
         createdInstrument.Should().BeEquivalentTo(expectedInstrument);
         isEventPublished.Should().BeTrue();
         isEventConsumed.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task CreateInstrument_ShouldReturnBadRequest_WhenRequestBodyIsInvalid()
+    {
+        // Arrange
+        var invalidModel = new { Type = "guitar" };
+        var content = JsonContent.Create(invalidModel);
+
+        // Act
+        var response = await Client.PostAsync("/instruments", content);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+    
+    [Fact]
+    public async Task CreateInstrument_ShouldReturnInternalServerError_WhenRequestBodyHasNoTypeField()
+    {
+        // Arrange
+        var invalidModel = new { };
+        var content = JsonContent.Create(invalidModel);
+
+        // Act
+        var response = await Client.PostAsync("/instruments", content);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
     }
 }

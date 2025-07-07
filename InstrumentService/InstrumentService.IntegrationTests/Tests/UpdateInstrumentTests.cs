@@ -1,7 +1,10 @@
+using System.Net;
+using System.Net.Http.Json;
 using FluentAssertions;
 using InstrumentService.IntegrationTests.Builders;
 using InstrumentService.IntegrationTests.Constants;
 using InstrumentService.IntegrationTests.Extensions;
+using InstrumentService.IntegrationTests.Factories;
 using MongoDB.Driver;
 
 namespace InstrumentService.IntegrationTests.Tests;
@@ -14,7 +17,7 @@ public class UpdateInstrumentTests(CustomWebApplicationFactory factory) : Instru
     {
         // Arrange
         var createModel = new GuitarRequestModelBuilder().Build();
-        var createContent = createModel.ToHttpContent();
+        var createContent = GuitarRequestJsonFactory.CreateFromGuitarModel(createModel);
 
         var createResponse = await Client.PostAsync("/instruments", createContent);
         createResponse.IsSuccessStatusCode.Should().BeTrue();
@@ -28,7 +31,7 @@ public class UpdateInstrumentTests(CustomWebApplicationFactory factory) : Instru
             .WithManufacturer("Updated Manufacturer")
             .Build();
 
-        var updateContent = updateModel.ToHttpContent();
+        var updateContent = GuitarRequestJsonFactory.CreateFromGuitarModel(updateModel);
 
         // Act
         var updateResponse = await Client.PutAsync($"/instruments/{createdInstrument.Id}", updateContent);
@@ -58,7 +61,7 @@ public class UpdateInstrumentTests(CustomWebApplicationFactory factory) : Instru
             .WithManufacturer("Phantom Corp")
             .Build();
 
-        var updateContent = updateModel.ToHttpContent();
+        var updateContent = GuitarRequestJsonFactory.CreateFromGuitarModel(updateModel);
 
         // Act
         var updateResponse = await Client.PutAsync($"/instruments/{InstrumentTestConstants.NonExistentInstrumentId}",
@@ -73,7 +76,7 @@ public class UpdateInstrumentTests(CustomWebApplicationFactory factory) : Instru
     {
         // Arrange
         var createModel = new GuitarRequestModelBuilder().Build();
-        var createContent = createModel.ToHttpContent();
+        var createContent = GuitarRequestJsonFactory.CreateFromGuitarModel(createModel);
 
         var createResponse = await Client.PostAsync("/instruments", createContent);
         createResponse.IsSuccessStatusCode.Should().BeTrue();
@@ -89,12 +92,40 @@ public class UpdateInstrumentTests(CustomWebApplicationFactory factory) : Instru
             .WithManufacturer("Wrong User Inc.")
             .Build();
 
-        var updateContent = updateModel.ToHttpContent();
+        var updateContent = GuitarRequestJsonFactory.CreateFromGuitarModel(updateModel);
 
         // Act
         var updateResponse = await otherUserClient.PutAsync($"/instruments/{createdInstrument.Id}", updateContent);
 
         // Assert
-        updateResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.Forbidden);
+        updateResponse.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task UpdateInstrument_ShouldReturnBadRequest_WhenRequestBodyIsInvalid()
+    {
+        // Arrange
+        var invalidModel = new { Type = "guitar" };
+        var content = JsonContent.Create(invalidModel);
+
+        // Act
+        var response = await Client.PutAsync($"/instruments/{InstrumentTestConstants.InstrumentId}", content);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task UpdateInstrument_ShouldReturnInternalServerError_WhenRequestBodyHasNoTypeField()
+    {
+        // Arrange
+        var invalidModel = new { };
+        var content = JsonContent.Create(invalidModel);
+
+        // Act
+        var response = await Client.PutAsync($"/instruments/{InstrumentTestConstants.InstrumentId}", content);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
     }
 }
