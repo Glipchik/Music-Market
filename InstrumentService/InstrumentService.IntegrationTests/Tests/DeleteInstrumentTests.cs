@@ -1,14 +1,13 @@
 using System.Net;
-using System.Threading.Tasks;
 using FluentAssertions;
 using InstrumentService.IntegrationTests.Builders;
 using InstrumentService.IntegrationTests.Constants;
 using InstrumentService.IntegrationTests.Consumers;
 using InstrumentService.IntegrationTests.Extensions;
+using InstrumentService.IntegrationTests.Factories;
 using MassTransit.Testing;
 using MongoDB.Driver;
 using Shared.Messaging.Contracts.Events.Instrument;
-using Xunit;
 
 namespace InstrumentService.IntegrationTests.Tests;
 
@@ -20,7 +19,7 @@ public class DeleteInstrumentTests(CustomWebApplicationFactory factory) : Instru
     {
         // Arrange
         var createModel = new GuitarRequestModelBuilder().Build();
-        var createContent = createModel.ToHttpContent();
+        var createContent = GuitarRequestJsonFactory.CreateFromGuitarModel(createModel);
 
         var massTransitHarness = Factory.Services.GetTestHarness();
         await massTransitHarness.Start();
@@ -77,7 +76,7 @@ public class DeleteInstrumentTests(CustomWebApplicationFactory factory) : Instru
     {
         // Arrange
         var createModel = new GuitarRequestModelBuilder().Build();
-        var createContent = createModel.ToHttpContent();
+        var createContent = GuitarRequestJsonFactory.CreateFromGuitarModel(createModel);
 
         var createResponse = await Client.PostAsync("/instruments", createContent);
         createResponse.IsSuccessStatusCode.Should().BeTrue();

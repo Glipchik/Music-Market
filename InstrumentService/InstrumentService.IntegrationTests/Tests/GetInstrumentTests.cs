@@ -1,17 +1,15 @@
 using System.Net;
 using System.Text.Json;
-using System.Threading.Tasks;
 using FluentAssertions;
 using InstrumentService.Business.Models.Response;
 using InstrumentService.IntegrationTests.Builders;
 using InstrumentService.IntegrationTests.Constants;
 using InstrumentService.IntegrationTests.Consumers;
-using InstrumentService.IntegrationTests.Extensions;
+using InstrumentService.IntegrationTests.Factories;
 using InstrumentService.IntegrationTests.Utils;
 using MassTransit.Testing;
 using MongoDB.Driver;
 using Shared.Messaging.Contracts.Events.Instrument;
-using Xunit;
 
 namespace InstrumentService.IntegrationTests.Tests;
 
@@ -29,7 +27,7 @@ public class GetInstrumentTests(CustomWebApplicationFactory factory) : Instrumen
     {
         // Arrange
         var createModel = new GuitarRequestModelBuilder().Build();
-        var createContent = createModel.ToHttpContent();
+        var createContent = GuitarRequestJsonFactory.CreateFromGuitarModel(createModel);
 
         var massTransitHarness = Factory.Services.GetTestHarness();
         await massTransitHarness.Start();
