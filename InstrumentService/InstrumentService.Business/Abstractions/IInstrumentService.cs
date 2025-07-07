@@ -7,9 +7,14 @@ namespace InstrumentService.Business.Abstractions;
 public interface IInstrumentService
 {
     Task<InstrumentResponseModel> GetByIdAsync(string id, CancellationToken cancellationToken);
-    Task<List<InstrumentResponseModel>> GetAllAsync(CancellationToken cancellationToken);
+
+    Task<PaginatedModel<InstrumentResponseModel>> GetPagedAsync(int page, int pageSize,
+        CancellationToken cancellationToken);
+
     Task<List<InstrumentResponseModel>> GetTopAsync(int limit, CancellationToken cancellationToken);
-    Task<InstrumentResponseModel> CreateAsync(string? userId, InstrumentRequestModel requestModel, CancellationToken cancellationToken);
+
+    Task<InstrumentResponseModel> CreateAsync(string? userId, InstrumentRequestModel requestModel,
+        CancellationToken cancellationToken);
 
     Task UpdateAsync(string? userId, string instrumentId, InstrumentRequestModel request,
         CancellationToken cancellationToken);
@@ -18,7 +23,8 @@ public interface IInstrumentService
     Task<List<InstrumentTypeResponseModel>> GetTypesAsync(CancellationToken cancellationToken);
     Task<List<FormFieldDescriptorResponseModel>> GetFieldsByTypeAsync(string type, CancellationToken cancellationToken);
 
-    Task<List<UserInstrumentResponseModel>> GetAllUserInstrumentsAsync(string? userId,
+    Task<PaginatedModel<UserInstrumentResponseModel>> GetPagedUserInstrumentsAsync(int page, int pageSize,
+        string? userId,
         CancellationToken cancellationToken);
 
     Task<UserContactsModel> GetOwnerContactsAsync(string instrumentId, CancellationToken cancellationToken);
