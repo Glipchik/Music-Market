@@ -1,6 +1,6 @@
 using Shared.Middlewares;
-using UserService.Business.Entities;
 using UserService.Business.Extensions;
+using UserService.DataAccess.Entities;
 using UserService.DataAccess.Extensions;
 using UserService.IdentityServer.Extensions;
 

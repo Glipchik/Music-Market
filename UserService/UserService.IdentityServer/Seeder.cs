@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using UserService.Business.Entities;
+using UserService.DataAccess.Entities;
 
 namespace UserService.IdentityServer;
 

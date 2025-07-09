@@ -3,7 +3,7 @@ using Duende.IdentityModel;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
-using UserService.Business.Entities;
+using UserService.DataAccess.Entities;
 
 namespace UserService.IdentityServer;
 

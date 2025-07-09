@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using UserService.Business.Entities;
+using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Data;
 

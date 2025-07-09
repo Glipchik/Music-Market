@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UserService.Business.Abstractions;
-using UserService.Business.Entities;
 using UserService.Business.Services;
 
 namespace UserService.IdentityServer.Pages.Account.Login;
