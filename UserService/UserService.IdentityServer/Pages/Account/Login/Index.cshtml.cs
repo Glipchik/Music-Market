@@ -1,13 +1,10 @@
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
-using Duende.IdentityServer.Stores;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UserService.Business.Abstractions;
-using UserService.Business.Entities;
 using UserService.Business.Services;
 
 namespace UserService.IdentityServer.Pages.Account.Login;
@@ -16,12 +13,7 @@ namespace UserService.IdentityServer.Pages.Account.Login;
 [AllowAnonymous]
 public class Index(
     IAccountService accountService,
-    IIdentityServerInteractionService interaction,
-    IAuthenticationSchemeProvider schemeProvider,
-    IIdentityProviderStore identityProviderStore,
-    IEventService events,
-    UserManager<ApplicationUser> userManager,
-    SignInManager<ApplicationUser> signInManager)
+    IIdentityServerInteractionService interaction)
     : PageModel
 {
     public ViewModel View { get; set; } = default!;
