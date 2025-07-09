@@ -1,10 +1,9 @@
 using System.Security.Claims;
-using Duende.IdentityModel;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using UserService.Business.Abstractions;
-using UserService.Business.Entities;
 using UserService.Business.Models.Account;
+using UserService.DataAccess.Entities;
 
 namespace UserService.Business.Services;
 
@@ -40,10 +39,11 @@ public class AccountService(
 
         return new LoginResult(Success: true, RedirectUrl: redirectUrl);
     }
-
+    
     public async Task<RegistrationResult> RegisterAsync(
         string username,
         string password,
+        string name,
         string? email,
         string? returnUrl,
         Func<string, bool> isLocalUrl)
@@ -64,7 +64,8 @@ public class AccountService(
         var user = new ApplicationUser
         {
             UserName = username,
-            Email = email
+            Email = email,
+            Name = name,
         };
 
         var result = await userManager.CreateAsync(user, password);
@@ -77,6 +78,8 @@ public class AccountService(
                 ErrorMessage: result.Errors.FirstOrDefault()?.Description ?? "Unknown error occured."
             );
         }
+
+        await userManager.AddToRoleAsync(user, "User");
 
         await signInManager.SignInAsync(user, isPersistent: false);
 

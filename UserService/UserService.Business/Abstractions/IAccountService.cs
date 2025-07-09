@@ -7,7 +7,7 @@ public interface IAccountService
 {
     Task<LoginResult> LoginAsync(string username, string password, string? returnUrl, Func<string, bool> isLocalUrl);
 
-    Task<RegistrationResult> RegisterAsync(string username, string password, string? email, string? returnUrl,
+    Task<RegistrationResult> RegisterAsync(string username, string password, string name, string? email, string? returnUrl,
         Func<string, bool> isLocalUrl);
 
     Task<bool> ShouldShowLogoutPromptAsync(ClaimsPrincipal user, string? logoutId);

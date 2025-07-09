@@ -1,0 +1,156 @@
+{
+  "ReverseProxy": {
+    "Routes": {
+      "instruments_getAll": {
+        "ClusterId": "instrumentCluster",
+        "Match": {
+          "Path": "/api/instruments",
+          "Methods": [ "GET" ]
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ]
+      },
+      "instruments_getById": {
+        "ClusterId": "instrumentCluster",
+        "Match": {
+          "Path": "/api/instruments/{id}",
+          "Methods": [ "GET" ]
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ]
+      },
+      "instruments_getTypes": {
+        "ClusterId": "instrumentCluster",
+        "Match": {
+          "Path": "/api/instruments/types",
+          "Methods": [ "GET" ]
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ]
+      },
+      "instruments_my": {
+        "ClusterId": "instrumentCluster",
+        "Match": {
+          "Path": "/api/instruments/my",
+          "Methods": [ "GET" ]
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ],
+        "Metadata": {
+          "Duende.Bff.Yarp.TokenType": "User"
+        }
+      },
+      "instruments_getOwnerContacts": {
+        "ClusterId": "instrumentCluster",
+        "Match": {
+          "Path": "/api/instruments/{id}/contacts",
+          "Methods": [ "GET" ]
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ],
+        "Metadata": {
+          "Duende.Bff.Yarp.TokenType": "User"
+        }
+      },
+      "instruments_create": {
+        "ClusterId": "instrumentCluster",
+        "Match": {
+          "Path": "/api/instruments",
+          "Methods": [ "POST" ]
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ],
+        "Metadata": {
+          "Duende.Bff.Yarp.TokenType": "User"
+        }
+      },
+      "instruments_update": {
+        "ClusterId": "instrumentCluster",
+        "Match": {
+          "Path": "/api/instruments/{id}",
+          "Methods": [ "PUT" ]
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ],
+        "Metadata": {
+          "Duende.Bff.Yarp.TokenType": "User"
+        }
+      },
+      "instruments_getFormMetadata": {
+        "ClusterId": "instrumentCluster",
+        "Match": {
+          "Path": "api/instruments/form/{instrumentType}",
+          "Methods": [ "GET" ]
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ],
+        "Metadata": {
+          "Duende.Bff.Yarp.TokenType": "User"
+        }
+      },
+      "instruments_delete": {
+        "ClusterId": "instrumentCluster",
+        "Match": {
+          "Path": "/api/instruments/{id}",
+          "Methods": [ "DELETE" ]
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ],
+        "Metadata": {
+          "Duende.Bff.Yarp.TokenType": "User"
+        }
+      },
+      "files_upload": {
+        "ClusterId": "instrumentCluster",
+        "Match": {
+          "Path": "/api/files/{folder}",
+          "Methods": [ "POST" ]
+        },
+        "Transforms": [
+          {
+            "PathRemovePrefix": "/api"
+          }
+        ],
+        "Metadata": {
+          "Duende.Bff.Yarp.TokenType": "User"
+        }
+      }
+    },
+    "Clusters": {
+      "instrumentCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "http://localhost:5057/"
+          }
+        }
+      }
+    }
+  }
+}
