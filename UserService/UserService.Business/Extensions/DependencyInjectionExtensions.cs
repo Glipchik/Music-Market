@@ -9,6 +9,8 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddBusinessServices(this IServiceCollection services)
     {
         services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped<IUserService, Services.UserService>();
+        
         return services;
     }
 }
