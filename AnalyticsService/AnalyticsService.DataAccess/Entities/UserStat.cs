@@ -2,7 +2,7 @@ namespace AnalyticsService.DataAccess.Entities;
 
 public class UserStat
 {
-    public Guid UserId { get; set; }
+    public string UserId { get; set; } = null!;
     public int TotalLogins { get; set; }
     public int InstrumentsCreated { get; set; }
 }
