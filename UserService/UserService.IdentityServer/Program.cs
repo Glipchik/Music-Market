@@ -1,6 +1,10 @@
+using DotNetEnv;
 using UserService.IdentityServer;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Env.Load();
+builder.Configuration.AddEnvironmentVariables();
 
 var app = builder
     .ConfigureServices()

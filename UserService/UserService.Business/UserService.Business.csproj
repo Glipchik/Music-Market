@@ -12,4 +12,9 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\Shared.csproj" />
+      <ProjectReference Include="..\UserService.DataAccess\UserService.DataAccess.csproj" />
+    </ItemGroup>
+
 </Project>
