@@ -12,6 +12,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("analytics");
         modelBuilder.ApplyConfiguration(new UserStatEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new InstrumentStatEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new InstrumentsDailyStatEntityTypeConfiguration());
