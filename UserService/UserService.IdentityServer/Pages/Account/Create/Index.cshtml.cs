@@ -1,13 +1,9 @@
-using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
-using Duende.IdentityServer.Test;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UserService.Business.Abstractions;
-using UserService.Business.Entities;
 
 namespace UserService.IdentityServer.Pages.Account.Create;
 
@@ -42,17 +38,18 @@ public class Index(
         {
             return Page();
         }
-        
+
         var result = await accountService.RegisterAsync(
             Input.Username,
             Input.Password,
+            Input.Name,
             Input.Email,
             Input.ReturnUrl,
             Url.IsLocalUrl
         );
 
         if (result.Success) return Redirect(result.RedirectUrl ?? "~/");
-        
+
         if (!string.IsNullOrEmpty(result.ErrorMessage))
         {
             ModelState.AddModelError(string.Empty, result.ErrorMessage);
