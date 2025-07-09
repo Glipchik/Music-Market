@@ -8,6 +8,8 @@ public class InstrumentStatEntityTypeConfiguration : IEntityTypeConfiguration<In
 {
     public void Configure(EntityTypeBuilder<InstrumentStat> builder)
     {
-         builder.HasKey(e => e.InstrumentId);
+        builder.HasKey(instrumentStat => instrumentStat.InstrumentId);
+
+        builder.Property(instrumentStat => instrumentStat.InstrumentId).HasMaxLength(128).IsRequired();
     }
 }

@@ -8,7 +8,9 @@ public class InstrumentsDailyStatEntityTypeConfiguration : IEntityTypeConfigurat
 {
     public void Configure(EntityTypeBuilder<InstrumentDailyStat> builder)
     {
-        builder.HasKey(instrumentDailyStat => 
+        builder.HasKey(instrumentDailyStat =>
             new { instrumentDailyStat.InstrumentId, instrumentDailyStat.Date });
+
+        builder.Property(instrumentDailyStat => instrumentDailyStat.InstrumentId).HasMaxLength(128).IsRequired();
     }
 }
