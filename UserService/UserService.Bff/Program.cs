@@ -5,6 +5,10 @@ using UserService.Bff.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("yarp.instruments.json", optional: true, reloadOnChange: true);
+
+builder.Services.AddControllers();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -16,11 +20,15 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddReverseProxy()
+    .AddBffExtensions()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+
 builder.Services.AddBff()
     .AddRemoteApis();
 builder.Services.AddTransient<IReturnUrlValidator, FrontendHostReturnUrlValidator>();
 
-Configuration config = new();
+var config = new Configuration();
 builder.Configuration.Bind("BFF", config);
 
 builder.Services.AddAuthentication(options =>
@@ -34,32 +42,34 @@ builder.Services.AddAuthentication(options =>
         options.Cookie.Name = "__Host-bff";
         options.Cookie.SameSite = SameSiteMode.None;
         options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-
     })
     .AddOpenIdConnect("oidc", options =>
     {
         options.Authority = config.Authority;
         options.ClientId = config.ClientId;
         options.ClientSecret = config.ClientSecret;
-    
+
         options.ResponseType = "code";
         options.ResponseMode = "query";
-        
+
         options.GetClaimsFromUserInfoEndpoint = true;
         options.MapInboundClaims = false;
         options.DisableTelemetry = true;
+
         options.SaveTokens = true;
-    
+
         options.Scope.Clear();
         foreach (var scope in config.Scopes)
         {
             options.Scope.Add(scope);
         }
-        options.TokenValidationParameters.NameClaimType = "name";
+        
         options.TokenValidationParameters.RoleClaimType = "role";
+        options.TokenValidationParameters.NameClaimType = "name";
     });
 
 builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 app.UseRouting();
@@ -70,15 +80,11 @@ app.UseBff();
 
 app.UseAuthorization();
 
-app.MapBffManagementEndpoints();
+app.MapReverseProxy()
+    .AsBffApiEndpoint();
 
-if (config.Apis.Count != 0)
-{
-    foreach (var api in config.Apis)
-    {
-        app.MapRemoteBffApiEndpoint(api.LocalPath, api.RemoteUrl!)
-            .RequireAccessToken(api.RequiredToken);
-    }
-}
+app.MapControllers();
+
+app.MapBffManagementEndpoints();
 
 app.Run();
