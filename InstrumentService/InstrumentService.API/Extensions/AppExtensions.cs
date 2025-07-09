@@ -6,7 +6,6 @@ public static class AppExtensions
 {
     public static IApplicationBuilder UseProjectMiddlewares(this IApplicationBuilder app)
     {
-        app.UseCors("AllowFrontend");
         app.UseMiddleware<ExceptionHandlingMiddleware>();
         return app;
     }

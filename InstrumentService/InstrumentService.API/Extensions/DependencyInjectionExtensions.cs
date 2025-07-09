@@ -11,16 +11,6 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddProjectServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowFrontend", policy =>
-            {
-                policy.WithOrigins("http://localhost:4200")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
-            });
-        });
         services.Configure<MinioOptions>(configuration.GetSection(nameof(MinioOptions)));
 
         services.AddAutoMapper((sp, config) =>
