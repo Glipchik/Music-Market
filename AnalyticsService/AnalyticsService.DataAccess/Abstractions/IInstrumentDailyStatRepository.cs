@@ -2,11 +2,11 @@ using AnalyticsService.DataAccess.Entities;
 
 namespace AnalyticsService.DataAccess.Abstractions;
 
-public interface IInstrumentDailyStatRepository : IRepository<InstrumentDailyStat>
+public interface IInstrumentDailyStatRepository : IRepository<InstrumentDailyStat, string>
 {
-    Task<List<InstrumentDailyStat>> GetByDateRangeAsync(Guid instrumentId, DateOnly startDate, DateOnly endDate,
+    Task<List<InstrumentDailyStat>> GetByDateRangeAsync(string instrumentId, DateOnly startDate, DateOnly endDate,
         CancellationToken cancellationToken);
 
-    Task<InstrumentDailyStat?> GetByDateAsync(Guid instrumentId, DateOnly date, CancellationToken cancellationToken);
-    Task DeleteByInstrumentIdAsync(Guid instrumentId, CancellationToken cancellationToken);
+    Task<InstrumentDailyStat?> GetByDateAsync(string instrumentId, DateOnly date, CancellationToken cancellationToken);
+    Task DeleteByInstrumentIdAsync(string instrumentId, CancellationToken cancellationToken);
 }
