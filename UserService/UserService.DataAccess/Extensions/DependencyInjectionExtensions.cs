@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using UserService.Business.Entities;
 using UserService.DataAccess.Data;
+using UserService.DataAccess.Entities;
 
 namespace UserService.DataAccess.Extensions;
 
@@ -14,8 +14,8 @@ public static class DependencyInjectionExtensions
     {
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
-        
-        services.AddIdentity<ApplicationUser, IdentityRole>()
+
+        services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
