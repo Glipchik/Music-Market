@@ -10,7 +10,7 @@ public class InstrumentBookmarkedConsumer(IUnitOfWork unitOfWork) : IConsumer<In
     public async Task Consume(ConsumeContext<InstrumentBookmarked> context)
     {
         var instrumentId = context.Message.InstrumentId;
-        
+
         var instrumentStat = await unitOfWork.InstrumentStatRepository
             .GetByIdAsync(instrumentId, context.CancellationToken);
 
