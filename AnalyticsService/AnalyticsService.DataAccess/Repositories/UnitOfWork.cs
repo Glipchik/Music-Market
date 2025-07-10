@@ -1,11 +1,10 @@
 using AnalyticsService.DataAccess.Abstractions;
 using AnalyticsService.DataAccess.Data;
-using Shared.Exceptions;
 
 namespace AnalyticsService.DataAccess.Repositories;
 
 internal class UnitOfWork(
-    ApplicationDbContext context, 
+    ApplicationDbContext context,
     IInstrumentDailyStatRepository instrumentDailyStatRepository,
     IInstrumentStatRepository instrumentStatRepository,
     IUserStatRepository userStatRepository) : IUnitOfWork
@@ -20,9 +19,9 @@ internal class UnitOfWork(
         {
             await context.SaveChangesAsync(cancellationToken);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            throw new DataSaveException("An error occured while saving data");
+            throw new Exception("An error occured while saving data to AnalyticsService database.", exception);
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using AnalyticsService.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,13 +12,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnalyticsService.DataAccess.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250618134009_Limit_Length_Of_UserId")]
+    partial class Limit_Length_Of_UserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("analytics")
                 .HasAnnotation("ProductVersion", "8.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -37,7 +39,7 @@ namespace AnalyticsService.DataAccess.Data.Migrations
 
                     b.HasKey("InstrumentId", "Date");
 
-                    b.ToTable("InstrumentDailyStats", "analytics");
+                    b.ToTable("InstrumentDailyStats");
                 });
 
             modelBuilder.Entity("AnalyticsService.DataAccess.Entities.InstrumentStat", b =>
@@ -57,7 +59,7 @@ namespace AnalyticsService.DataAccess.Data.Migrations
 
                     b.HasKey("InstrumentId");
 
-                    b.ToTable("InstrumentStats", "analytics");
+                    b.ToTable("InstrumentStats");
                 });
 
             modelBuilder.Entity("AnalyticsService.DataAccess.Entities.UserStat", b =>
@@ -74,7 +76,7 @@ namespace AnalyticsService.DataAccess.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserStats", "analytics");
+                    b.ToTable("UserStats");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,6 +3,7 @@ using System;
 using AnalyticsService.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,13 +12,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnalyticsService.DataAccess.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250613115534_Change_InstrumentId_From_Guid_To_String")]
+    partial class Change_InstrumentId_From_Guid_To_String
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("analytics")
                 .HasAnnotation("ProductVersion", "8.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -37,7 +39,7 @@ namespace AnalyticsService.DataAccess.Data.Migrations
 
                     b.HasKey("InstrumentId", "Date");
 
-                    b.ToTable("InstrumentDailyStats", "analytics");
+                    b.ToTable("InstrumentDailyStats");
                 });
 
             modelBuilder.Entity("AnalyticsService.DataAccess.Entities.InstrumentStat", b =>
@@ -57,14 +59,14 @@ namespace AnalyticsService.DataAccess.Data.Migrations
 
                     b.HasKey("InstrumentId");
 
-                    b.ToTable("InstrumentStats", "analytics");
+                    b.ToTable("InstrumentStats");
                 });
 
             modelBuilder.Entity("AnalyticsService.DataAccess.Entities.UserStat", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<int>("InstrumentsCreated")
                         .HasColumnType("integer");
@@ -74,7 +76,7 @@ namespace AnalyticsService.DataAccess.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserStats", "analytics");
+                    b.ToTable("UserStats");
                 });
 #pragma warning restore 612, 618
         }

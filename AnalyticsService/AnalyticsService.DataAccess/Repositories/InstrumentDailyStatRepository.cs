@@ -6,9 +6,10 @@ using Microsoft.EntityFrameworkCore;
 namespace AnalyticsService.DataAccess.Repositories;
 
 internal class InstrumentDailyStatRepository(ApplicationDbContext context)
-    : Repository<InstrumentDailyStat>(context), IInstrumentDailyStatRepository
+    : Repository<InstrumentDailyStat, string>(context), IInstrumentDailyStatRepository
 {
-    public async Task<List<InstrumentDailyStat>> GetByDateRangeAsync(Guid instrumentId, DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken)
+    public async Task<List<InstrumentDailyStat>> GetByDateRangeAsync(string instrumentId, DateOnly startDate,
+        DateOnly endDate, CancellationToken cancellationToken)
     {
         var instrumentDailyStats = await DbSet
             .Where(instrumentDailyStat => instrumentDailyStat.InstrumentId == instrumentId &&
@@ -19,7 +20,7 @@ internal class InstrumentDailyStatRepository(ApplicationDbContext context)
         return instrumentDailyStats;
     }
 
-    public async Task<InstrumentDailyStat?> GetByDateAsync(Guid instrumentId, DateOnly date,
+    public async Task<InstrumentDailyStat?> GetByDateAsync(string instrumentId, DateOnly date,
         CancellationToken cancellationToken)
     {
         var instrumentDailyStat = await DbSet
@@ -30,7 +31,7 @@ internal class InstrumentDailyStatRepository(ApplicationDbContext context)
         return instrumentDailyStat;
     }
 
-    public async Task DeleteByInstrumentIdAsync(Guid instrumentId, CancellationToken cancellationToken)
+    public async Task DeleteByInstrumentIdAsync(string instrumentId, CancellationToken cancellationToken)
     {
         var instrumentDailyStats = await DbSet
             .Where(instrumentDailyStat => instrumentDailyStat.InstrumentId == instrumentId)

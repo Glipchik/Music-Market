@@ -1,8 +1,8 @@
 namespace AnalyticsService.DataAccess.Entities;
 
-public class InstrumentDailyStat(Guid instrumentId, DateOnly date, int views)
+public class InstrumentDailyStat
 {
-    public Guid InstrumentId { get; set; } = instrumentId;
-    public DateOnly Date { get; set; } = date;
-    public int Views { get; set; } = views;
+    public string InstrumentId { get; set; } = null!;
+    public DateOnly Date { get; set; }
+    public int Views { get; set; }
 }
