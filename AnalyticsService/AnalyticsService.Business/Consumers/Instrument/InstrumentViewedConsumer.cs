@@ -31,7 +31,7 @@ public class InstrumentViewedConsumer(IUnitOfWork unitOfWork) : IConsumer<Instru
 
         if (instrumentDailyStat is null)
         {
-            instrumentDailyStat = new InstrumentDailyStat(instrumentId, date, 1);
+            instrumentDailyStat = new InstrumentDailyStat { InstrumentId = instrumentId, Date = date, Views = 1 };
             await unitOfWork.InstrumentDailyStatRepository.AddAsync(instrumentDailyStat, context.CancellationToken);
         }
         else
