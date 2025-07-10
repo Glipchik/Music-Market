@@ -1,3 +1,3 @@
 namespace AnalyticsService.Business.Models;
 
-public record InstrumentDailyStatResult(Guid InstrumentId, DateOnly Date, int Views);
+public record InstrumentDailyStatResult(string InstrumentId, DateOnly Date, int Views);

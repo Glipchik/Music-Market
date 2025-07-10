@@ -8,7 +8,7 @@ namespace AnalyticsService.Business.Services;
 
 public class AnalyticsService(IUnitOfWork unitOfWork, IMapper mapper) : IAnalyticsService
 {
-    public async Task<InstrumentStatResult> GetInstrumentStatAsync(Guid instrumentId,
+    public async Task<InstrumentStatResult> GetInstrumentStatAsync(string instrumentId,
         CancellationToken cancellationToken)
     {
         var instrumentStat = await unitOfWork.InstrumentStatRepository.GetByIdAsync(instrumentId, cancellationToken);
@@ -23,7 +23,7 @@ public class AnalyticsService(IUnitOfWork unitOfWork, IMapper mapper) : IAnalyti
         return result;
     }
 
-    public async Task<InstrumentDailyStatResult> GetInstrumentDailyStatByDateAsync(Guid instrumentId, DateOnly date,
+    public async Task<InstrumentDailyStatResult> GetInstrumentDailyStatByDateAsync(string instrumentId, DateOnly date,
         CancellationToken cancellationToken)
     {
         var instrumentDailyStat = await unitOfWork.InstrumentDailyStatRepository
@@ -40,7 +40,7 @@ public class AnalyticsService(IUnitOfWork unitOfWork, IMapper mapper) : IAnalyti
         return result;
     }
 
-    public async Task<List<InstrumentDailyStatResult>> GetInstrumentDailyStatsByDateRangeAsync(Guid instrumentId,
+    public async Task<List<InstrumentDailyStatResult>> GetInstrumentDailyStatsByDateRangeAsync(string instrumentId,
         DateOnly startDate, DateOnly endDate,
         CancellationToken cancellationToken)
     {
@@ -52,7 +52,7 @@ public class AnalyticsService(IUnitOfWork unitOfWork, IMapper mapper) : IAnalyti
         return result;
     }
 
-    public async Task<UserStatResult> GetUserStatAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<UserStatResult> GetUserStatAsync(string userId, CancellationToken cancellationToken)
     {
         var userStat = await unitOfWork.UserStatRepository.GetByIdAsync(userId, cancellationToken);
 
@@ -64,5 +64,16 @@ public class AnalyticsService(IUnitOfWork unitOfWork, IMapper mapper) : IAnalyti
         var result = mapper.Map<UserStatResult>(userStat);
 
         return result;
+    }
+
+    public async Task<List<TopInstrumentModel>> GetTopViewedInstrumentIdsAsync(int limit,
+        CancellationToken cancellationToken)
+    {
+        var instrumentStats = await unitOfWork.InstrumentStatRepository
+            .GetTopViewedAsync(limit, cancellationToken);
+
+        var topInstrumentModels = mapper.Map<List<TopInstrumentModel>>(instrumentStats);
+
+        return topInstrumentModels;
     }
 }

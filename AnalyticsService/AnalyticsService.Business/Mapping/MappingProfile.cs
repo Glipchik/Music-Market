@@ -11,5 +11,6 @@ public class MappingProfile : Profile
         CreateMap<InstrumentStat, InstrumentStatResult>();
         CreateMap<InstrumentDailyStat, InstrumentDailyStatResult>();
         CreateMap<UserStat, UserStatResult>();
+        CreateMap<InstrumentStat, TopInstrumentModel>();
     }
 }
