@@ -19,9 +19,9 @@ internal class UnitOfWork(
         {
             await context.SaveChangesAsync(cancellationToken);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            throw new Exception("An error occured while saving data to AnalyticsService database.");
+            throw new Exception("An error occured while saving data to AnalyticsService database.", exception);
         }
     }
 }
