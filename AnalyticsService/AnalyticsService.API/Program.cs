@@ -1,12 +1,15 @@
-using AnalyticsService.API.Middlewares;
+using AnalyticsService.API.Extensions;
 using AnalyticsService.Business.Extensions;
 using AnalyticsService.DataAccess.Extensions;
 using DotNetEnv;
+using Shared.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 Env.Load();
 builder.Configuration.AddEnvironmentVariables();
+
+builder.Services.AddJwtAuthorization(builder.Configuration);
 
 builder.Services.AddBusinessServices(builder.Configuration);
 builder.Services.AddDataAccessServices(builder.Configuration);
@@ -25,6 +28,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
