@@ -9,16 +9,17 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.16">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.17"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AnalyticsService.Business\AnalyticsService.Business.csproj" />
-      <ProjectReference Include="..\AnalyticsService.DataAccess\AnalyticsService.DataAccess.csproj" />
+        <ProjectReference Include="..\AnalyticsService.Business\AnalyticsService.Business.csproj"/>
+        <ProjectReference Include="..\AnalyticsService.DataAccess\AnalyticsService.DataAccess.csproj"/>
     </ItemGroup>
 
 </Project>
