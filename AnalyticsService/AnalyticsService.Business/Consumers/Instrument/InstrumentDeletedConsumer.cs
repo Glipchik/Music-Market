@@ -12,8 +12,10 @@ public class InstrumentDeletedConsumer(IUnitOfWork unitOfWork) : IConsumer<Instr
 
         await unitOfWork.InstrumentStatRepository
             .DeleteByInstrumentIdAsync(instrumentId, context.CancellationToken);
+
         await unitOfWork.InstrumentDailyStatRepository
             .DeleteByInstrumentIdAsync(instrumentId, context.CancellationToken);
+
         await unitOfWork.SaveChangesAsync(context.CancellationToken);
     }
 }
