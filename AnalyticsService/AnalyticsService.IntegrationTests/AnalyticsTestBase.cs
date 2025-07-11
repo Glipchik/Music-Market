@@ -10,20 +10,20 @@ public abstract class AnalyticsTestBase(CustomWebApplicationFactory factory) : I
     protected readonly HttpClient Client = factory.CreateAuthenticatedClient(TestAuthConstants.UserId);
     protected readonly CustomWebApplicationFactory Factory = factory;
 
-    private IServiceScope _scope = null!;
+    protected IServiceScope Scope = null!;
     protected IUnitOfWork UnitOfWork = null!;
 
     public virtual async Task InitializeAsync()
     {
         await Factory.ResetDatabaseAsync();
 
-        _scope = Factory.Services.CreateScope();
-        UnitOfWork = _scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+        Scope = Factory.Services.CreateScope();
+        UnitOfWork = Scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
     }
 
     public virtual Task DisposeAsync()
     {
-        _scope.Dispose();
+        Scope.Dispose();
         return Task.CompletedTask;
     }
 }

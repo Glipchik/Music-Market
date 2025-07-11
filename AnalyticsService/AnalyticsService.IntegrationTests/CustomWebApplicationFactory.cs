@@ -46,16 +46,15 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>, IA
         await InitializeRespawnerAsync();
     }
 
-    public new async Task DisposeAsync()
-    {
-        await _dbContainer.DisposeAsync();
-        // await _rabbitMqContainer.DisposeAsync();
-        await _dbConnection.DisposeAsync();
-    }
-
     public async Task ResetDatabaseAsync()
     {
         await _respawner.ResetAsync(_dbConnection);
+    }
+
+    public new async Task DisposeAsync()
+    {
+        await _dbContainer.DisposeAsync();
+        await _dbConnection.DisposeAsync();
     }
 
     private async Task InitializeRespawnerAsync()

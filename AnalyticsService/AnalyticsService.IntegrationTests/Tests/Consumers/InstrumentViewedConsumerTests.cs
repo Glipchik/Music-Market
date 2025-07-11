@@ -14,19 +14,11 @@ namespace AnalyticsService.IntegrationTests.Tests.Consumers;
 public class InstrumentViewedConsumerTests(CustomWebApplicationFactory factory) : AnalyticsTestBase(factory)
 {
     private InstrumentViewedConsumer _consumer = null!;
-    private IServiceScope _scope = null!;
 
     public override async Task InitializeAsync()
     {
         await base.InitializeAsync();
-        _scope = Factory.Services.CreateScope();
-        _consumer = _scope.ServiceProvider.GetRequiredService<InstrumentViewedConsumer>();
-    }
-
-    public override async Task DisposeAsync()
-    {
-        await base.DisposeAsync();
-        _scope.Dispose();
+        _consumer = Scope.ServiceProvider.GetRequiredService<InstrumentViewedConsumer>();
     }
 
     [Fact]
