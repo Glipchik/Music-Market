@@ -1,7 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 using AnalyticsService.Business.Models;
-using AnalyticsService.IntegrationTests.TestData;
+using AnalyticsService.DataAccess.Entities;
+using AnalyticsService.IntegrationTests.Builders;
 using FluentAssertions;
 
 namespace AnalyticsService.IntegrationTests.Tests.Endpoints;
@@ -13,7 +14,13 @@ public class GetTopViewedInstrumentsTests(CustomWebApplicationFactory factory) :
     public async Task GetTopViewedInstruments_ShouldReturnSortedLimitedResult_WhenStatsExist()
     {
         // Arrange
-        var stats = GetTopViewedInstrumentsTestData.CreateStats();
+        var stats = new List<InstrumentStat>
+        {
+            new InstrumentStatBuilder().WithId("i1").WithViews(20).WithContactViews(5).WithBookmarks(1).Build(),
+            new InstrumentStatBuilder().WithId("i2").WithViews(40).WithContactViews(2).WithBookmarks(3).Build(),
+            new InstrumentStatBuilder().WithId("i3").WithViews(30).WithContactViews(7).WithBookmarks(4).Build(),
+            new InstrumentStatBuilder().WithId("i4").WithViews(35).WithContactViews(13).WithBookmarks(2).Build()
+        };
 
         await UnitOfWork.InstrumentStatRepository.AddRangeAsync(stats, CancellationToken.None);
         await UnitOfWork.SaveChangesAsync(CancellationToken.None);

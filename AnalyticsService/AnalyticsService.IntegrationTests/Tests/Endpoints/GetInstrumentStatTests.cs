@@ -3,7 +3,6 @@ using System.Net.Http.Json;
 using AnalyticsService.Business.Models;
 using AnalyticsService.IntegrationTests.Builders;
 using AnalyticsService.IntegrationTests.Constants;
-using AnalyticsService.IntegrationTests.TestData;
 using FluentAssertions;
 
 namespace AnalyticsService.IntegrationTests.Tests.Endpoints;
@@ -15,7 +14,12 @@ public class GetInstrumentStatTests(CustomWebApplicationFactory factory) : Analy
     public async Task GetInstrumentStat_ShouldReturnStat_WhenInstrumentExists()
     {
         // Arrange
-        var stat = GetInstrumentStatTestData.CreateStat();
+        var stat = new InstrumentStatBuilder()
+            .WithId("guitar-123")
+            .WithViews(42)
+            .WithContactViews(10)
+            .WithBookmarks(3)
+            .Build();
 
         var expected = new InstrumentStatResultExpectationBuilder()
             .FromEntity(stat)

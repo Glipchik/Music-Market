@@ -1,8 +1,8 @@
 using System.Net.Http.Json;
 using AnalyticsService.Business.Consumers.Instrument;
 using AnalyticsService.Business.Models;
+using AnalyticsService.IntegrationTests.Builders;
 using AnalyticsService.IntegrationTests.Constants;
-using AnalyticsService.IntegrationTests.TestData;
 using FluentAssertions;
 using MassTransit.TestFramework;
 using Microsoft.Extensions.DependencyInjection;
@@ -64,8 +64,16 @@ public class InstrumentViewedConsumerTests(CustomWebApplicationFactory factory) 
         var message = new InstrumentViewed(instrumentId, date);
         var consumeContext = new TestConsumeContext<InstrumentViewed>(message);
 
-        var existingStat = InstrumentViewedConsumerTestData.CreateStat(instrumentId);
-        var existingDailyStat = InstrumentViewedConsumerTestData.CreateDailyStat(instrumentId, date);
+        var existingStat = new InstrumentStatBuilder()
+            .WithId(TestConstants.InstrumentId)
+            .WithViews(10)
+            .Build();
+
+        var existingDailyStat = new InstrumentDailyStatBuilder()
+            .WithId(TestConstants.InstrumentId)
+            .WithViews(3)
+            .WithDate(TestConstants.GetDate())
+            .Build();
 
         await UnitOfWork.InstrumentStatRepository.AddAsync(existingStat, default);
         await UnitOfWork.InstrumentDailyStatRepository.AddAsync(existingDailyStat, default);
