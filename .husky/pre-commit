@@ -1,0 +1,3 @@
+npx lint-staged --cwd react-client
+cd react-client
+npm run build
