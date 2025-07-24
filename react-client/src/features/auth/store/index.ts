@@ -1,12 +1,11 @@
 import { create } from "zustand";
-import { getUserInfo } from "../api/api";
+import { getUserInfo } from "../api";
 import type { User } from "./types";
 import {
   API_BASE_URL,
   REACT_APP_URL,
   IDENTITY_PROVIDER_BASE_URL,
 } from "@/shared/config/constants";
-import axios from "axios";
 
 interface AuthStore {
   user: User | null;
@@ -21,9 +20,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   fetchUser: async () => {
     try {
-      const response = await getUserInfo();
+      const claims = await getUserInfo();
 
-      const claims = response.data;
+      if (!claims) {
+        set({ user: null });
+        return;
+      }
 
       const nameClaim = claims.find((c) => c.type === "name")?.value;
       const subClaim = claims.find((c) => c.type === "sub")?.value;
@@ -40,11 +42,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
         set({ user: null });
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          set({ user: null });
-        }
-      }
+      set({ user: null });
+      throw error;
     }
   },
 
@@ -54,24 +53,19 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   logout: async () => {
     try {
-      const response = await getUserInfo();
+      const claims = await getUserInfo();
 
-      const claims = response.data;
+      const logoutUrl = claims?.find((c) => c.type === "bff:logout_url")?.value;
 
-      const logoutClaim = claims.find((c) => c.type === "bff:logout_url");
-      const logoutUrl = logoutClaim?.value;
-
-      if (logoutUrl) {
-        window.location.href = `${API_BASE_URL}${logoutUrl}&returnUrl=${REACT_APP_URL}`;
-      } else {
+      if (!logoutUrl) {
         set({ user: null });
+        return;
       }
+
+      window.location.href = `${API_BASE_URL}${logoutUrl}&returnUrl=${REACT_APP_URL}`;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          set({ user: null });
-        }
-      }
+      set({ user: null });
+      throw error;
     }
   },
 
