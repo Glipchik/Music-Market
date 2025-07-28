@@ -41,6 +41,9 @@ export const getInstrumentContacts = async (instrumentId: string) => {
     );
     return response.data;
   } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      return null;
+    }
     if (axios.isAxiosError(error) && error.response?.status) {
       throw new Response(null, { status: error.response.status });
     }
