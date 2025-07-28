@@ -1,8 +1,10 @@
+import { useState, useRef } from "react";
 import DailyViewsHistogram from "@/shared/ui/DailyViewsHistogram";
-import { Form, Link, useNavigate } from "react-router-dom";
+import { Form, Link, useNavigate, useSubmit } from "react-router-dom";
 import noImage from "@/assets/no-image.jpg";
 import type { UserInstrumentResponseModel } from "../model/types";
 import { formatPrice } from "@/shared/lib/formatters/formatPrice";
+import ConfirmationModal from "@/shared/ui/ConfirmationModal";
 
 interface MyListingCardProps {
   instrument: UserInstrumentResponseModel;
@@ -10,6 +12,9 @@ interface MyListingCardProps {
 
 const MyListingCard = ({ instrument }: MyListingCardProps) => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const submit = useSubmit();
 
   const imageUrl: string =
     instrument.photoUrls && instrument.photoUrls.length > 0
@@ -23,25 +28,31 @@ const MyListingCard = ({ instrument }: MyListingCardProps) => {
   };
 
   const handleDeleteSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this listing?"
-    );
+    event.preventDefault();
+    setIsModalOpen(true);
+  };
 
-    if (!isConfirmed) {
-      event.preventDefault();
+  const handleConfirmDelete = () => {
+    setIsModalOpen(false);
+    if (formRef.current) {
+      submit(formRef.current);
     }
+  };
+
+  const handleCancelDelete = () => {
+    setIsModalOpen(false);
   };
 
   return (
     <div
       className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all 
-    duration-300 overflow-hidden flex flex-col sm:flex-row border border-gray-100"
+      duration-300 overflow-hidden flex flex-col sm:flex-row border border-gray-100"
     >
       <div
         onClick={handleCardClick}
         className="w-full h-48 sm:w-64 sm:h-auto flex-shrink-0 cursor-pointer overflow-hidden
-                    rounded-t-xl sm:rounded-l-xl sm:rounded-t-none
-                    flex items-center justify-center bg-gray-50 group-hover:scale-[1.02] transition-transform duration-300"
+        rounded-t-xl sm:rounded-l-xl sm:rounded-t-none
+        flex items-center justify-center bg-gray-50 group-hover:scale-[1.02] transition-transform duration-300"
       >
         <img
           className="w-full max-h-60 object-contain"
@@ -87,10 +98,10 @@ const MyListingCard = ({ instrument }: MyListingCardProps) => {
           <div className="flex gap-4 mt-4">
             <Link
               to={`${instrument.id}/edit`}
-              className="flex-1 text-center py-2 px-4 rounded-lg
-                          bg-blue-600 text-white font-semibold
-                          hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50
-                          transition-colors duration-200"
+              className="btn-base flex-1 text-center py-2 px-4 rounded-lg
+              bg-blue-600 text-white font-semibold
+              hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50
+              transition-colors duration-200"
             >
               Edit
             </Link>
@@ -99,13 +110,14 @@ const MyListingCard = ({ instrument }: MyListingCardProps) => {
               action={`${instrument.id}/delete`}
               onSubmit={handleDeleteSubmit}
               className="flex-1"
+              ref={formRef}
             >
               <button
                 type="submit"
-                className="w-full py-2 px-4 rounded-lg
-                            bg-rose-600 text-white font-semibold
-                            hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50
-                            transition-colors duration-200"
+                className="btn-base w-full py-2 px-4 rounded-lg
+                bg-rose-600 text-white font-semibold
+                hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50
+                transition-colors duration-200"
               >
                 Delete
               </button>
@@ -113,6 +125,13 @@ const MyListingCard = ({ instrument }: MyListingCardProps) => {
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        title="Delete Listing"
+        message={`Are you sure you want to delete "${instrument.name}"? This action cannot be undone.`}
+      />
     </div>
   );
 };
