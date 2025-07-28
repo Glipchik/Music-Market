@@ -1,4 +1,5 @@
 import type { UserContactsModel } from "../model/types";
+import { LockClosedIcon } from "@heroicons/react/24/outline";
 
 interface ContactsModalProps {
   contacts?: UserContactsModel | null;
@@ -30,28 +31,33 @@ const ContactsModal = ({
           &times;
         </button>
         {isLoading ? (
-          <div className="flex justify-center items-center py-8">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
-            <p className="ml-4 text-xl text-gray-700">Loading contacts...</p>
+          <div className="flex flex-col justify-center items-center py-8">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            <p className="ml-4 text-xl text-gray-700 mt-4">
+              Loading contacts...
+            </p>
           </div>
         ) : !contacts ? (
-          <>
-            <h2 className="text-2xl font-bold text-red-600 mb-4">
-              Authorization Required
+          <div className="flex flex-col items-center justify-center py-4">
+            <LockClosedIcon className="w-20 h-20 text-blue-500 mb-6" />
+
+            <h2 className="text-3xl font-extrabold text-gray-800 mb-3">
+              Access Restricted
             </h2>
-            <p className="text-gray-700 text-lg mb-6">
-              Please log in to view seller contacts.
+            <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+              To view the seller's contact details, please log in to your
+              account. It's quick and easy!
             </p>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onLoginClick();
               }}
-              className="btn-base bg-blue-600 text-white text-lg hover:bg-blue-700"
+              className="btn-base bg-blue-600 text-white text-xl px-8 py-3 rounded-full hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
             >
-              Log In
+              Log In Now
             </button>
-          </>
+          </div>
         ) : (
           <>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
