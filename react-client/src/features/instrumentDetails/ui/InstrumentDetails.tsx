@@ -30,6 +30,7 @@ const InstrumentDetails = ({ instrument }: InstrumentDetailsProps) => {
 
   const handleShowContacts = async () => {
     setIsModalOpen(true);
+    setIsLoadingContacts(true);
     const contacts = await getInstrumentContacts(instrument.id);
     setSellerContacts(contacts);
     setIsLoadingContacts(false);
