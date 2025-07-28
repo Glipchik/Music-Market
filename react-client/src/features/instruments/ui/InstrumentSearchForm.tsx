@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, useSubmit } from "react-router-dom";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 interface InstrumentSearchFormProps {
   searchParams: URLSearchParams;
@@ -15,8 +16,27 @@ const InstrumentSearchForm = ({ searchParams }: InstrumentSearchFormProps) => {
 
   return (
     <Form role="search" className="bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 className="mb-4">Filter Instruments</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+      <h2 className="text-2xl font-bold text-gray-800 mb-5">
+        Filter Instruments
+      </h2>
+      <div className="mb-6">
+        <label htmlFor="instrumentName" className="sr-only">
+          Search by Instrument Name
+        </label>
+        <div className="relative">
+          <input
+            type="text"
+            id="instrumentName"
+            name="name"
+            defaultValue={searchParams.get("name") || ""}
+            onChange={handleInputChange}
+            className="search-form-input w-full pl-10 pr-4"
+            placeholder="Search instruments..."
+          />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
           <label htmlFor="minPrice" className="search-form-label">
             Min Price
@@ -57,20 +77,6 @@ const InstrumentSearchForm = ({ searchParams }: InstrumentSearchFormProps) => {
             onChange={handleInputChange}
             className="search-form-input"
             placeholder="e.g., Fender"
-          />
-        </div>
-        <div>
-          <label htmlFor="instrumentName" className="search-form-label">
-            Instrument Name
-          </label>
-          <input
-            type="text"
-            id="instrumentName"
-            name="name"
-            defaultValue={searchParams.get("name") || ""}
-            onChange={handleInputChange}
-            className="search-form-input"
-            placeholder="e.g., Stratocaster"
           />
         </div>
       </div>
