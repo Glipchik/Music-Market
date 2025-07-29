@@ -1,3 +1,9 @@
+export interface ValidationRuleResponseModel {
+  ruleName: string;
+  ruleValue?: unknown;
+  errorMessage?: string;
+}
+
 export interface FormFieldDescriptorResponseModel {
   name: string;
   label: string;
@@ -6,4 +12,5 @@ export interface FormFieldDescriptorResponseModel {
   defaultValue?: unknown;
   options?: string[];
   placeholder?: string;
+  validationRules: ValidationRuleResponseModel[];
 }
