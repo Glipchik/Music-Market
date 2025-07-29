@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef } from "react";
 import { DecimalInputField } from "@/shared/ui/Fields/DecimalInputField";
 import { TextInputField } from "@/shared/ui/Fields/TextInputField";
-import * as Yup from "yup";
+import { buildSearchValidationSchema } from "../lib/validation";
 
 interface InstrumentSearchFormProps {
   searchParams: URLSearchParams;
@@ -21,22 +21,7 @@ const InstrumentSearchForm = ({ searchParams }: InstrumentSearchFormProps) => {
     manufacturer: searchParams.get("manufacturer") || "",
   };
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string(),
-    manufacturer: Yup.string(),
-    minPrice: Yup.number(),
-    maxPrice: Yup.number().test(
-      "max-gte-min",
-      "Max price must be greater than or equal to Min price",
-      function (value) {
-        const { minPrice } = this.parent;
-        if (value != null && minPrice != null) {
-          return value >= minPrice;
-        }
-        return true;
-      }
-    ),
-  });
+  const validationSchema = buildSearchValidationSchema();
 
   return (
     <Formik
