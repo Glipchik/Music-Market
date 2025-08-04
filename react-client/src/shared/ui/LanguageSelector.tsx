@@ -8,6 +8,12 @@ const LanguageSelector = () => {
     i18n.changeLanguage(event.target.value);
   };
 
+  const supportedLanguages = i18n.options.supportedLngs || [];
+
+  const uniqueSupportedLanguages = Array.from(
+    new Set(supportedLanguages.filter((lng) => lng !== "cimode"))
+  );
+
   return (
     <div className="language-selector">
       <label htmlFor="language-select" className="sr-only">
@@ -20,9 +26,11 @@ const LanguageSelector = () => {
         className="px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 
                    focus:border-indigo-500 text-gray-700 text-sm appearance-none"
       >
-        <option value="en">EN</option>
-        <option value="ru">RU</option>
-        <option value="de">DE</option>
+        {uniqueSupportedLanguages.map((langCode) => (
+          <option key={langCode} value={langCode}>
+            {langCode.toUpperCase()}
+          </option>
+        ))}
       </select>
     </div>
   );
