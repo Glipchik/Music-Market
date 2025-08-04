@@ -1,0 +1,208 @@
+{
+  "form": {
+    "base": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Name eingeben",
+        "validation": {
+          "minLength": "Name muss mindestens 3 Zeichen lang sein",
+          "maxLength": "Name darf höchstens 10 Zeichen lang sein"
+        }
+      },
+      "manufacturer": {
+        "label": "Hersteller",
+        "placeholder": "Hersteller eingeben",
+        "validation": {
+          "minLength": "Hersteller muss mindestens 3 Zeichen lang sein",
+          "maxLength": "Hersteller darf höchstens 6 Zeichen lang sein"
+        }
+      },
+      "price": {
+        "label": "Preis",
+        "placeholder": "Preis eingeben",
+        "validation": {
+          "minValue": "Preis muss mindestens 0 sein",
+          "maxValue": "Preis muss kleiner als 999999999 sein"
+        }
+      },
+      "description": {
+        "label": "Beschreibung",
+        "placeholder": "Beschreibung eingeben",
+        "validation": {
+          "maxLength": "Beschreibung darf höchstens 4000 Zeichen lang sein"
+        }
+      }
+    },
+    "piano": {
+      "actionType": {
+        "label": "Mechaniktyp",
+        "placeholder": "Mechaniktyp auswählen",
+        "options": {
+          "hammer": "Hammermechanik",
+          "upright": "Klavier",
+          "grand": "Flügel",
+          "digital": "Digital"
+        }
+      },
+      "caseWood": {
+        "label": "Gehäuseholz",
+        "placeholder": "Gehäuseholz eingeben",
+        "validation": {
+          "minLength": "Gehäuseholz muss mindestens 2 Zeichen lang sein",
+          "maxLength": "Gehäuseholz darf höchstens 50 Zeichen lang sein"
+        }
+      },
+      "weight": {
+        "label": "Gewicht",
+        "placeholder": "Gewicht eingeben",
+        "validation": {
+          "maxValue": "Gewicht darf höchstens 2000 sein"
+        }
+      },
+      "numberOfKeys": {
+        "label": "Anzahl der Tasten",
+        "placeholder": "Anzahl der Tasten auswählen"
+      },
+      "numberOfPedals": {
+        "label": "Anzahl der Pedale",
+        "placeholder": "Anzahl der Pedale auswählen"
+      }
+    },
+    "guitar": {
+      "numberOfStrings": {
+        "label": "Anzahl der Saiten",
+        "placeholder": "Anzahl der Saiten auswählen"
+      },
+      "topWood": {
+        "label": "Deckenholz",
+        "placeholder": "Deckenholz eingeben",
+        "validation": {
+          "minLength": "Deckenholz muss mindestens 2 Zeichen lang sein",
+          "maxLength": "Deckenholz darf höchstens 50 Zeichen lang sein"
+        }
+      },
+      "bodyWood": {
+        "label": "Korpus-Holz",
+        "placeholder": "Korpus-Holz eingeben",
+        "validation": {
+          "minLength": "Korpus-Holz muss mindestens 2 Zeichen lang sein",
+          "maxLength": "Korpus-Holz darf höchstens 50 Zeichen lang sein"
+        }
+      },
+      "handOrientation": {
+        "label": "Händigkeit",
+        "placeholder": "Händigkeit auswählen",
+        "options": {
+          "right": "Rechtshänder",
+          "left": "Linkshänder"
+        }
+      },
+      "bodyShape": {
+        "label": "Korpusform",
+        "placeholder": "Korpusform auswählen",
+        "options": {
+          "dreadnought": "Dreadnought",
+          "grandAuditorium": "Grand Auditorium",
+          "concert": "Konzert",
+          "grandConcert": "Grand Konzert",
+          "lesPaul": "Les Paul",
+          "telecaster": "Telecaster",
+          "jumbo": "Jumbo",
+          "parlor": "Parlor",
+          "auditorium": "Auditorium",
+          "classical": "Klassisch"
+        }
+      },
+      "nutWidth": {
+        "label": "Sattelbreite",
+        "placeholder": "Sattelbreite eingeben",
+        "validation": {
+          "maxValue": "Sattelbreite darf höchstens 100 sein"
+        }
+      }
+    },
+    "cello": {
+      "size": {
+        "label": "Größe",
+        "placeholder": "Größe auswählen"
+      },
+      "topWood": {
+        "label": "Deckenholz",
+        "placeholder": "Deckenholz eingeben",
+        "validation": {
+          "minLength": "Deckenholz muss mindestens 2 Zeichen lang sein",
+          "maxLength": "Deckenholz darf höchstens 50 Zeichen lang sein"
+        }
+      },
+      "endpinType": {
+        "label": "Stacheltyp",
+        "placeholder": "Stacheltyp auswählen",
+        "options": {
+          "carbonFiber": "Carbonfaser",
+          "wood": "Holz",
+          "steel": "Stahl"
+        }
+      },
+      "varnishType": {
+        "label": "Lacktyp",
+        "placeholder": "Lacktyp eingeben",
+        "validation": {
+          "minLength": "Lacktyp muss mindestens 2 Zeichen lang sein",
+          "maxLength": "Lacktyp darf höchstens 50 Zeichen lang sein"
+        }
+      }
+    },
+    "drum": {
+      "numberOfPieces": {
+        "label": "Anzahl der Teile",
+        "placeholder": "Anzahl der Teile eingeben",
+        "validation": {
+          "maxValue": "Anzahl der Teile darf höchstens 20 sein"
+        }
+      },
+      "shellMaterial": {
+        "label": "Kesselmateriel",
+        "placeholder": "Kesselmateriel auswählen",
+        "options": {
+          "maple": "Ahorn",
+          "birch": "Birke",
+          "mahogany": "Mahagoni",
+          "poplar": "Pappel",
+          "oak": "Eiche",
+          "acrylic": "Acryl",
+          "linden": "Linde"
+        }
+      },
+      "configuration": {
+        "label": "Konfiguration",
+        "placeholder": "Konfiguration auswählen",
+        "options": {
+          "standardKit": "Standardset",
+          "fusionKit": "Fusionsset",
+          "bopKit": "Bop-Set",
+          "shellPack": "Shell-Pack",
+          "snareDrum": "Snare-Drum",
+          "bassDrum": "Bass-Drum",
+          "tom": "Tom",
+          "floorTom": "Standtom"
+        }
+      },
+      "cymbalsIncluded": {
+        "label": "Becken enthalten",
+        "placeholder": "Ankreuzen, wenn Becken enthalten sind"
+      }
+    }
+  },
+  "updating": "Aktualisiere...",
+  "creating": "Erstelle...",
+  "updateListing": "Aktualisieren",
+  "createListing": "Erstellen",
+  "successUpdate": "Instrument erfolgreich aktualisiert",
+  "successCreate": "Instrument erfolgreich erstellt!",
+  "errorOccurred": "Ein Fehler ist aufgetreten",
+  "editTitle": "{{name}} bearbeiten",
+  "createTitle": "Neues Instrument zur Liste hinzufügen",
+  "selectTypeLabel": "Instrumententyp auswählen",
+  "selectTypePlaceholder": "-- Bitte wählen Sie einen Typ aus --",
+  "isRequired": "Das '{{fieldName}}' ist erforderlich"
+}
