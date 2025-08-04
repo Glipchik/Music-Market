@@ -30,10 +30,6 @@ const InstrumentCard = ({ instrument }: InstrumentCardProps) => {
       </div>
       <div className="px-6 py-4">
         <h3 className="mb-2 break-words leading-snug">{instrument.name}</h3>
-        <p className="text-gray-700 text-base mb-2">
-          <span className="font-semibold">Manufacturer:</span>{" "}
-          {instrument.manufacturer}
-        </p>
         <p className="text-indigo-600 text-lg font-bold">{formattedPrice}</p>
       </div>
       <div className="px-6 pt-4 pb-2">

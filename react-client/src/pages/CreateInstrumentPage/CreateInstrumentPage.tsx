@@ -3,11 +3,13 @@ import { useLoaderData, useSearchParams } from "react-router-dom";
 import { useCategoriesStore } from "@/features/instrumentCategories/store";
 import InstrumentForm from "@/widgets/InstrumentForm/InstrumentForm";
 import type { FormFieldDescriptorResponseModel } from "@/shared/types/form";
+import { useTranslation } from "react-i18next";
 
 const CreateInstrumentPage = () => {
+  const { t } = useTranslation(["instrumentForm", "categories"]);
+
   const formSchema = useLoaderData<FormFieldDescriptorResponseModel[]>();
   const [searchParams, setSearchParams] = useSearchParams();
-
   const instrumentTypes = useCategoriesStore((state) => state.instrumentTypes);
 
   const currentSelectedType = searchParams.get("type") ?? "";
@@ -27,7 +29,7 @@ const CreateInstrumentPage = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
       <h1 className="mb-8 text-center text-3xl font-bold text-gray-800">
-        Create New Instrument Listing
+        {t("createTitle")}
       </h1>
 
       <div className="bg-white p-8 rounded-lg shadow-md mb-6">
@@ -35,7 +37,7 @@ const CreateInstrumentPage = () => {
           htmlFor="instrumentTypeSelector"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Select Instrument Type
+          {t("selectTypeLabel")}
         </label>
         <select
           id="instrumentTypeSelector"
@@ -45,10 +47,10 @@ const CreateInstrumentPage = () => {
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
           required
         >
-          <option value="">-- Please select a type --</option>
+          <option value="">{t("selectTypePlaceholder")}</option>
           {instrumentTypes?.map((type) => (
             <option key={type.value} value={type.value}>
-              {type.label}
+              {t(`categories:${type.labelKey}`)}
             </option>
           ))}
         </select>

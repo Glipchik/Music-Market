@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import type { Category } from "../store/types";
+import { useTranslation } from "react-i18next";
 
 interface CategoryNavListProps {
   instrumentTypes: Category[];
@@ -10,17 +11,13 @@ const CategoryNavList = ({
   instrumentTypes,
   activeTypeId,
 }: CategoryNavListProps) => {
-  if (instrumentTypes.length === 0) {
-    return (
-      <div className="py-4 text-center text-gray-500 text-sm">
-        No categories available.
-      </div>
-    );
-  }
+  const { t } = useTranslation("categories");
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100 h-full">
-      <h3 className="mb-4 border-b pb-3 border-gray-200">Instrument Types</h3>
+      <h3 className="mb-4 border-b pb-3 border-gray-200">
+        {t("instrumentCategories")}
+      </h3>
       <nav>
         <ul className="space-y-2">
           {instrumentTypes.map((category) => (
@@ -39,11 +36,11 @@ const CategoryNavList = ({
                 {category.iconPath && (
                   <img
                     src={category.iconPath}
-                    alt={`${category.label} icon`}
+                    alt={`${t(category.labelKey)} icon`}
                     className="w-6 h-6 object-contain"
                   />
                 )}
-                <span>{category.label}</span>
+                <span>{t(category.labelKey)}</span>
               </NavLink>
             </li>
           ))}

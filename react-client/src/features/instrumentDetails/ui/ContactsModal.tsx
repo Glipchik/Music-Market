@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { UserContactsModel } from "../model/types";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 
@@ -16,6 +17,8 @@ const ContactsModal = ({
   onLoginClick,
   isLoading,
 }: ContactsModalProps) => {
+  const { t } = useTranslation("contacts");
+
   if (!isOpen) {
     return null;
   }
@@ -33,42 +36,42 @@ const ContactsModal = ({
         {isLoading ? (
           <div className="flex flex-col justify-center items-center py-8">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            <p className="ml-4 text-xl text-gray-700 mt-4">
-              Loading contacts...
-            </p>
+            <p className="ml-4 text-xl text-gray-700 mt-4">{t("loading")}</p>
           </div>
         ) : !contacts ? (
           <div className="flex flex-col items-center justify-center py-4">
             <LockClosedIcon className="w-20 h-20 text-blue-500 mb-6" />
 
             <h2 className="text-3xl font-extrabold text-gray-800 mb-3">
-              Access Restricted
+              {t("restrictedTitle")}
             </h2>
             <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-              To view the seller's contact details, please log in to your
-              account. It's quick and easy!
+              {t("restrictedMessage")}
             </p>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onLoginClick();
               }}
-              className="btn-base bg-blue-600 text-white text-xl px-8 py-3 rounded-full hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+              className="btn-base bg-blue-600 text-white text-xl px-8 py-3 rounded-full hover:bg-blue-700 
+              transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
             >
-              Log In Now
+              {t("loginButton")}
             </button>
           </div>
         ) : (
           <>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              Seller Contacts
+              {t("contactsTitle")}
             </h2>
             <>
               <p className="text-gray-800 text-lg mb-2">
-                <span className="font-semibold">Name:</span> {contacts.name}
+                <span className="font-semibold">{t("nameLabel")}:</span>{" "}
+                {contacts.name}
               </p>
               <p className="text-gray-800 text-lg mb-4">
-                <span className="font-semibold">Email:</span> {contacts.email}
+                <span className="font-semibold">{t("emailLabel")}:</span>{" "}
+                {contacts.email}
               </p>
             </>
           </>

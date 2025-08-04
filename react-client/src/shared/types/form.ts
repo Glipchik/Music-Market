@@ -1,16 +1,18 @@
 export interface ValidationRuleResponseModel {
   ruleName: string;
   ruleValue?: unknown;
-  errorMessage?: string;
+  errorMessageKey?: string;
 }
 
 export interface FormFieldDescriptorResponseModel {
   name: string;
-  label: string;
+  labelKey: string;
+  placeholderKey?: string;
   type: string;
   isRequired: boolean;
   defaultValue?: unknown;
+  defaultValueKey?: string;
   options?: string[];
-  placeholder?: string;
+  optionKeys?: string[];
   validationRules: ValidationRuleResponseModel[];
 }
