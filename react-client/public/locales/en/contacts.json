@@ -1,0 +1,9 @@
+{
+  "loading": "Loading contacts...",
+  "restrictedTitle": "Access Restricted",
+  "restrictedMessage": "To view the seller's contact details, please log in to your account. It's quick and easy!",
+  "loginButton": "Log In Now",
+  "contactsTitle": "Seller Contacts",
+  "nameLabel": "Name",
+  "emailLabel": "Email"
+}

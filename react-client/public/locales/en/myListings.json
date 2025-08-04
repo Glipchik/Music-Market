@@ -1,0 +1,8 @@
+{
+  "views": "Views",
+  "contactViews": "Contact Views",
+  "edit": "Edit",
+  "delete": "Delete",
+  "deleteConfirmTitle": "Delete Listing",
+  "deleteConfirmMessage": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
+}
