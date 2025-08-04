@@ -1,0 +1,10 @@
+{
+  "instrumentTypes": {
+    "guitar": "Gitarre",
+    "piano": "Klavier",
+    "cello": "Cello",
+    "drum": "Trommeln"
+  },
+  "title": "Nach Kategorie durchsuchen",
+  "empty": "Keine Instrumentenkategorien gefunden."
+}

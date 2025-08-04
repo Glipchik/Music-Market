@@ -1,0 +1,9 @@
+{
+  "loading": "Kontakte werden geladen...",
+  "restrictedTitle": "Zugang eingeschränkt",
+  "restrictedMessage": "Um die Kontaktdaten des Verkäufers zu sehen, melden Sie sich bitte in Ihrem Konto an. Es ist schnell und einfach!",
+  "loginButton": "Jetzt anmelden",
+  "contactsTitle": "Verkäuferkontakte",
+  "nameLabel": "Name",
+  "emailLabel": "E-Mail"
+}

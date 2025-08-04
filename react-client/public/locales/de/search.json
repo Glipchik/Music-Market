@@ -1,0 +1,11 @@
+{
+  "title": "Instrumente filtern",
+  "namePlaceholder": "Instrumente suchen...",
+  "nameLabel": "Nach Instrumentennamen suchen",
+  "minPrice": "Mindestpreis",
+  "maxPrice": "Höchstpreis",
+  "manufacturer": "Hersteller",
+  "minExample": "z. B. 50",
+  "maxExample": "z. B. 500",
+  "manufacturerExample": "z. B. Fender"
+}
