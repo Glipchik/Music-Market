@@ -1,0 +1,208 @@
+{
+  "form": {
+    "base": {
+      "name": {
+        "label": "Название",
+        "placeholder": "Введите название",
+        "validation": {
+          "minLength": "Название должно содержать не менее 3 символов",
+          "maxLength": "Название не должно превышать 10 символов"
+        }
+      },
+      "manufacturer": {
+        "label": "Производитель",
+        "placeholder": "Введите производителя",
+        "validation": {
+          "minLength": "Производитель должен содержать не менее 3 символов",
+          "maxLength": "Производитель не должен превышать 6 символов"
+        }
+      },
+      "price": {
+        "label": "Цена",
+        "placeholder": "Введите цену",
+        "validation": {
+          "minValue": "Цена должна быть не менее 0",
+          "maxValue": "Цена должна быть меньше 999999999"
+        }
+      },
+      "description": {
+        "label": "Описание",
+        "placeholder": "Введите описание",
+        "validation": {
+          "maxLength": "Описание должно быть менее 4000 символов"
+        }
+      }
+    },
+    "piano": {
+      "actionType": {
+        "label": "Тип механики",
+        "placeholder": "Выберите тип механики",
+        "options": {
+          "hammer": "Молоточковая",
+          "upright": "Вертикальное",
+          "grand": "Рояль",
+          "digital": "Цифровое"
+        }
+      },
+      "caseWood": {
+        "label": "Дерево корпуса",
+        "placeholder": "Введите дерево корпуса",
+        "validation": {
+          "minLength": "Дерево корпуса должно содержать не менее 2 символов",
+          "maxLength": "Дерево корпуса должно быть менее 50 символов"
+        }
+      },
+      "weight": {
+        "label": "Вес",
+        "placeholder": "Введите вес",
+        "validation": {
+          "maxValue": "Вес должен быть менее 2000"
+        }
+      },
+      "numberOfKeys": {
+        "label": "Количество клавиш",
+        "placeholder": "Выберите количество клавиш"
+      },
+      "numberOfPedals": {
+        "label": "Количество педалей",
+        "placeholder": "Выберите количество педалей"
+      }
+    },
+    "guitar": {
+      "numberOfStrings": {
+        "label": "Количество струн",
+        "placeholder": "Выберите количество струн"
+      },
+      "topWood": {
+        "label": "Дерево верхней деки",
+        "placeholder": "Введите дерево верхней деки",
+        "validation": {
+          "minLength": "Дерево верхней деки должно содержать не менее 2 символов",
+          "maxLength": "Дерево верхней деки должно быть менее 50 символов"
+        }
+      },
+      "bodyWood": {
+        "label": "Дерево корпуса",
+        "placeholder": "Введите дерево корпуса",
+        "validation": {
+          "minLength": "Дерево корпуса должно содержать не менее 2 символов",
+          "maxLength": "Дерево корпуса должно быть менее 50 символов"
+        }
+      },
+      "handOrientation": {
+        "label": "Ориентация для рук",
+        "placeholder": "Выберите ориентацию для рук",
+        "options": {
+          "right": "Правосторонняя",
+          "left": "Левосторонняя"
+        }
+      },
+      "bodyShape": {
+        "label": "Форма корпуса",
+        "placeholder": "Выберите форму корпуса",
+        "options": {
+          "dreadnought": "Дредноут",
+          "grandAuditorium": "Гранд Аудиториум",
+          "concert": "Концерт",
+          "grandConcert": "Гранд Концерт",
+          "lesPaul": "Лес Пол",
+          "telecaster": "Телекастер",
+          "jumbo": "Джамбо",
+          "parlor": "Парлор",
+          "auditorium": "Аудиториум",
+          "classical": "Классическая"
+        }
+      },
+      "nutWidth": {
+        "label": "Ширина порожка",
+        "placeholder": "Введите ширину порожка",
+        "validation": {
+          "maxValue": "Ширина порожка должна быть менее 100"
+        }
+      }
+    },
+    "cello": {
+      "size": {
+        "label": "Размер",
+        "placeholder": "Выберите размер"
+      },
+      "topWood": {
+        "label": "Дерево верхней деки",
+        "placeholder": "Введите дерево верхней деки",
+        "validation": {
+          "minLength": "Дерево верхней деки должно содержать не менее 2 символов",
+          "maxLength": "Дерево верхней деки должно быть менее 50 символов"
+        }
+      },
+      "endpinType": {
+        "label": "Тип шпиля",
+        "placeholder": "Выберите тип шпиля",
+        "options": {
+          "carbonFiber": "Углеродное волокно",
+          "wood": "Дерево",
+          "steel": "Сталь"
+        }
+      },
+      "varnishType": {
+        "label": "Тип лака",
+        "placeholder": "Введите тип лака",
+        "validation": {
+          "minLength": "Тип лака должен содержать не менее 2 символов",
+          "maxLength": "Тип лака должен быть менее 50 символов"
+        }
+      }
+    },
+    "drum": {
+      "numberOfPieces": {
+        "label": "Количество частей",
+        "placeholder": "Введите количество частей",
+        "validation": {
+          "maxValue": "Количество частей должно быть менее 20"
+        }
+      },
+      "shellMaterial": {
+        "label": "Материал корпуса",
+        "placeholder": "Выберите материал корпуса",
+        "options": {
+          "maple": "Клен",
+          "birch": "Береза",
+          "mahogany": "Красное дерево",
+          "poplar": "Тополь",
+          "oak": "Дуб",
+          "acrylic": "Акрил",
+          "linden": "Липа"
+        }
+      },
+      "configuration": {
+        "label": "Конфигурация",
+        "placeholder": "Выберите конфигурацию",
+        "options": {
+          "standardKit": "Стандартный набор",
+          "fusionKit": "Фьюжн набор",
+          "bopKit": "Боповый набор",
+          "shellPack": "Набор корпусов",
+          "snareDrum": "Малый барабан",
+          "bassDrum": "Бас-барабан",
+          "tom": "Том",
+          "floorTom": "Напольный том"
+        }
+      },
+      "cymbalsIncluded": {
+        "label": "Тарелки в комплекте",
+        "placeholder": "Отметьте, если тарелки включены"
+      }
+    }
+  },
+  "updating": "Обновление...",
+  "creating": "Создание...",
+  "updateListing": "Обновить",
+  "createListing": "Создать",
+  "successUpdate": "Инструмент успешно обновлен",
+  "successCreate": "Инструмент успешно создан!",
+  "errorOccurred": "Произошла ошибка",
+  "editTitle": "Редактировать {{name}}",
+  "createTitle": "Создать новое объявление об инструменте",
+  "selectTypeLabel": "Выберите тип инструмента",
+  "selectTypePlaceholder": "-- Пожалуйста, выберите тип --",
+  "isRequired": "Поле '{{fieldName}}' обязательно"
+}

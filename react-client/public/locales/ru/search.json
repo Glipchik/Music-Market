@@ -1,0 +1,11 @@
+{
+  "title": "Фильтр инструментов",
+  "namePlaceholder": "Поиск инструментов...",
+  "nameLabel": "Поиск по названию инструмента",
+  "minPrice": "Минимальная цена",
+  "maxPrice": "Максимальная цена",
+  "manufacturer": "Производитель",
+  "minExample": "например, 50",
+  "maxExample": "например, 500",
+  "manufacturerExample": "например, Fender"
+}

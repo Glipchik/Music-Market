@@ -1,0 +1,4 @@
+{
+  "instrumentTypeTitle": "{{type}}",
+  "noInstrumentsFound": "Инструментов типа «{{type}}», соответствующих вашим критериям, не найдено."
+}
