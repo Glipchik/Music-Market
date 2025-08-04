@@ -1,0 +1,10 @@
+{
+  "instrumentTypes": {
+    "guitar": "Guitar",
+    "piano": "Piano",
+    "cello": "Cello",
+    "drum": "Drums"
+  },
+  "title": "Browse by Category",
+  "empty": "No instrument categories found."
+}

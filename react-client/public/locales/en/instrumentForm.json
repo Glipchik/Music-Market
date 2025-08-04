@@ -1,0 +1,208 @@
+{
+  "form": {
+    "base": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter name",
+        "validation": {
+          "minLength": "Name must be at least 3 characters",
+          "maxLength": "Name must not exceed 10 characters"
+        }
+      },
+      "manufacturer": {
+        "label": "Manufacturer",
+        "placeholder": "Enter manufacturer",
+        "validation": {
+          "minLength": "Manufacturer must be at least 3 characters",
+          "maxLength": "Manufacturer must not exceed 6 characters"
+        }
+      },
+      "price": {
+        "label": "Price",
+        "placeholder": "Enter price",
+        "validation": {
+          "minValue": "Price must be at least 0",
+          "maxValue": "Price must be less than 999999999"
+        }
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter description",
+        "validation": {
+          "maxLength": "Description must be less than 4000 characters"
+        }
+      }
+    },
+    "piano": {
+      "actionType": {
+        "label": "Action Type",
+        "placeholder": "Select action type",
+        "options": {
+          "hammer": "Hammer",
+          "upright": "Upright",
+          "grand": "Grand",
+          "digital": "Digital"
+        }
+      },
+      "caseWood": {
+        "label": "Case Wood",
+        "placeholder": "Enter case wood",
+        "validation": {
+          "minLength": "Case wood must be at least 2 characters",
+          "maxLength": "Case wood must be less than 50 characters"
+        }
+      },
+      "weight": {
+        "label": "Weight",
+        "placeholder": "Enter weight",
+        "validation": {
+          "maxValue": "Weight must be less than 2000"
+        }
+      },
+      "numberOfKeys": {
+        "label": "Number of Keys",
+        "placeholder": "Select number of keys"
+      },
+      "numberOfPedals": {
+        "label": "Number of Pedals",
+        "placeholder": "Select number of pedals"
+      }
+    },
+    "guitar": {
+      "numberOfStrings": {
+        "label": "Number of Strings",
+        "placeholder": "Select number of strings"
+      },
+      "topWood": {
+        "label": "Top Wood",
+        "placeholder": "Enter top wood",
+        "validation": {
+          "minLength": "Top wood must be at least 2 characters",
+          "maxLength": "Top wood must be less than 50 characters"
+        }
+      },
+      "bodyWood": {
+        "label": "Body Wood",
+        "placeholder": "Enter body wood",
+        "validation": {
+          "minLength": "Body wood must be at least 2 characters",
+          "maxLength": "Body wood must be less than 50 characters"
+        }
+      },
+      "handOrientation": {
+        "label": "Hand Orientation",
+        "placeholder": "Select hand orientation",
+        "options": {
+          "right": "Right-Handed",
+          "left": "Left-Handed"
+        }
+      },
+      "bodyShape": {
+        "label": "Body Shape",
+        "placeholder": "Select body shape",
+        "options": {
+          "dreadnought": "Dreadnought",
+          "grandAuditorium": "Grand Auditorium",
+          "concert": "Concert",
+          "grandConcert": "Grand Concert",
+          "lesPaul": "Les Paul",
+          "telecaster": "Telecaster",
+          "jumbo": "Jumbo",
+          "parlor": "Parlor",
+          "auditorium": "Auditorium",
+          "classical": "Classical"
+        }
+      },
+      "nutWidth": {
+        "label": "Nut Width",
+        "placeholder": "Enter nut width",
+        "validation": {
+          "maxValue": "Nut width must be less than 100"
+        }
+      }
+    },
+    "cello": {
+      "size": {
+        "label": "Size",
+        "placeholder": "Select size"
+      },
+      "topWood": {
+        "label": "Top Wood",
+        "placeholder": "Enter top wood",
+        "validation": {
+          "minLength": "Top wood must be at least 2 characters",
+          "maxLength": "Top wood must be less than 50 characters"
+        }
+      },
+      "endpinType": {
+        "label": "Endpin Type",
+        "placeholder": "Select endpin type",
+        "options": {
+          "carbonFiber": "Carbon Fiber",
+          "wood": "Wood",
+          "steel": "Steel"
+        }
+      },
+      "varnishType": {
+        "label": "Varnish Type",
+        "placeholder": "Enter varnish type",
+        "validation": {
+          "minLength": "Varnish type must be at least 2 characters",
+          "maxLength": "Varnish type must be less than 50 characters"
+        }
+      }
+    },
+    "drum": {
+      "numberOfPieces": {
+        "label": "Number of Pieces",
+        "placeholder": "Enter number of pieces",
+        "validation": {
+          "maxValue": "Number of pieces must be less than 20"
+        }
+      },
+      "shellMaterial": {
+        "label": "Shell Material",
+        "placeholder": "Select shell material",
+        "options": {
+          "maple": "Maple",
+          "birch": "Birch",
+          "mahogany": "Mahogany",
+          "poplar": "Poplar",
+          "oak": "Oak",
+          "acrylic": "Acrylic",
+          "linden": "Linden"
+        }
+      },
+      "configuration": {
+        "label": "Configuration",
+        "placeholder": "Select configuration",
+        "options": {
+          "standardKit": "Standard Kit",
+          "fusionKit": "Fusion Kit",
+          "bopKit": "Bop Kit",
+          "shellPack": "Shell Pack",
+          "snareDrum": "Snare Drum",
+          "bassDrum": "Bass Drum",
+          "tom": "Tom",
+          "floorTom": "Floor Tom"
+        }
+      },
+      "cymbalsIncluded": {
+        "label": "Cymbals Included",
+        "placeholder": "Check if cymbals are included"
+      }
+    }
+  },
+  "updating": "Updating...",
+  "creating": "Creating...",
+  "updateListing": "Update",
+  "createListing": "Create",
+  "successUpdate": "Instrument successfully updated",
+  "successCreate": "Instrument successfully created!",
+  "errorOccurred": "An error occurred",
+  "editTitle": "Edit {{name}}",
+  "createTitle": "Create New Instrument Listing",
+  "selectTypeLabel": "Select Instrument Type",
+  "selectTypePlaceholder": "-- Please select a type --",
+  "isRequired": "The '{{fieldName}}' field is required"
+}

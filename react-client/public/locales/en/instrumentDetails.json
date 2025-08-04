@@ -1,0 +1,11 @@
+{
+  "noData": "No instrument data available.",
+  "manufacturer": "Manufacturer",
+  "type": "Type",
+  "showContacts": "Show Seller Contacts",
+  "description": "Description",
+  "specifications": "Specifications",
+  "yes": "Yes",
+  "no": "No",
+  "pageTitle": "{{name}} Details"
+}
