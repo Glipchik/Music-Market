@@ -5,12 +5,14 @@ import { useEffect, useRef } from "react";
 import { DecimalInputField } from "@/shared/ui/Fields/DecimalInputField";
 import { TextInputField } from "@/shared/ui/Fields/TextInputField";
 import { buildSearchValidationSchema } from "../lib/validation";
+import { useTranslation } from "react-i18next";
 
 interface InstrumentSearchFormProps {
   searchParams: URLSearchParams;
 }
 
 const InstrumentSearchForm = ({ searchParams }: InstrumentSearchFormProps) => {
+  const { t } = useTranslation("search");
   const submit = useSubmit();
   const debounceRef = useRef<number | null>(null);
 
@@ -61,44 +63,46 @@ const InstrumentSearchForm = ({ searchParams }: InstrumentSearchFormProps) => {
             className="bg-white p-6 rounded-lg shadow-md mb-8 sticky top-4 z-10"
           >
             <h2 className="text-2xl font-bold text-gray-800 mb-5">
-              Filter Instruments
+              {t("title")}
             </h2>
+
             <div className="mb-6">
               <label htmlFor="name" className="sr-only">
-                Search by Instrument Name
+                {t("nameLabel")}
               </label>
               <div className="relative">
                 <Field
                   type="text"
                   id="name"
                   name="name"
-                  placeholder="Search instruments..."
+                  placeholder={t("namePlaceholder")}
                   className="search-form-input w-full pl-10 pr-4"
                 />
                 <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               </div>
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
                 <label htmlFor="minPrice" className="search-form-label">
-                  Min Price
+                  {t("minPrice")}
                 </label>
                 <DecimalInputField
                   name="minPrice"
                   minValue={0}
                   maxValue={999999999}
-                  placeholder="e.g., 50"
+                  placeholder={t("minExample")}
                 />
               </div>
               <div>
                 <label htmlFor="maxPrice" className="search-form-label">
-                  Max Price
+                  {t("maxPrice")}
                 </label>
                 <DecimalInputField
                   name="maxPrice"
                   minValue={0}
                   maxValue={999999999}
-                  placeholder="e.g., 500"
+                  placeholder={t("maxExample")}
                 />
                 <ErrorMessage
                   name="maxPrice"
@@ -108,11 +112,11 @@ const InstrumentSearchForm = ({ searchParams }: InstrumentSearchFormProps) => {
               </div>
               <div>
                 <label htmlFor="manufacturer" className="search-form-label">
-                  Manufacturer
+                  {t("manufacturer")}
                 </label>
                 <TextInputField
                   name="manufacturer"
-                  placeholder="e.g., Fender"
+                  placeholder={t("manufacturerExample")}
                 />
               </div>
             </div>

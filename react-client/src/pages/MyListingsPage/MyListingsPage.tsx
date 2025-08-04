@@ -3,8 +3,10 @@ import MyListingCard from "@/features/myListings/ui/MyListingCard";
 import PaginationControls from "@/shared/ui/PaginationControls";
 import type { PaginatedModel } from "@/shared/types/pagination";
 import type { UserInstrumentResponseModel } from "@/features/myListings/model/types";
+import { useTranslation } from "react-i18next";
 
 const MyListingsPage = () => {
+  const { t } = useTranslation("myListingsPage");
   const { items, page, pageSize, totalCount, totalPages } =
     useLoaderData<PaginatedModel<UserInstrumentResponseModel>>();
 
@@ -32,18 +34,16 @@ const MyListingsPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <h1 className="mb-8 text-center">My Listings</h1>
+      <h1 className="mb-8 text-center">{t("pageTitle")}</h1>
 
       {noListingsFound ? (
         <div className="flex flex-col items-center justify-center py-16 bg-white rounded-lg shadow-md">
-          <p className="text-xl text-gray-600 mb-4">
-            You haven't listed any instruments yet.
-          </p>
+          <p className="text-xl text-gray-600 mb-4">{t("noListingsMessage")}</p>
           <Link
             to="/instruments/create"
             className="btn-base px-6 py-3 bg-indigo-600 text-white hover:bg-indigo-700"
           >
-            List Your First Instrument
+            {t("listFirstInstrument")}
           </Link>
         </div>
       ) : (

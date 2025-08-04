@@ -18,7 +18,7 @@ export const DecimalInputField = ({
 }: DecimalInputFieldProps) => {
   return (
     <Field name={name}>
-      {({ form }: FieldProps) => {
+      {({ form, field }: FieldProps) => {
         const [inputValue, setInputValue] = useState("");
 
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +42,7 @@ export const DecimalInputField = ({
           }
         };
 
-        const handleBlur = () => {
+        const handleBlur = async () => {
           const normalized = inputValue.replace(",", ".");
           const parsed = parseFloat(normalized);
 
@@ -60,10 +60,12 @@ export const DecimalInputField = ({
             setInputValue("");
             form.setFieldValue(name, "");
           }
+          await form.setFieldTouched(name, true, true);
         };
 
         return (
           <input
+            {...field}
             type="text"
             inputMode="decimal"
             value={inputValue}

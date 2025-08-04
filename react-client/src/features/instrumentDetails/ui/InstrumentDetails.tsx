@@ -6,12 +6,15 @@ import type { UserContactsModel } from "../model/types";
 import { formatPrice } from "@/shared/lib/formatters/formatPrice";
 import { useAuthStore } from "@/features/auth/store";
 import { getInstrumentContacts } from "@/shared/api";
+import { useTranslation } from "react-i18next";
 
 interface InstrumentDetailsProps {
   instrument: InstrumentResponseModel;
 }
 
 const InstrumentDetails = ({ instrument }: InstrumentDetailsProps) => {
+  const { t } = useTranslation(["instrumentDetails", "instrumentForm"]);
+
   const [sellerContacts, setSellerContacts] =
     useState<UserContactsModel | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,11 +22,7 @@ const InstrumentDetails = ({ instrument }: InstrumentDetailsProps) => {
   const login = useAuthStore((state) => state.login);
 
   if (!instrument) {
-    return (
-      <div className="text-center text-gray-600 py-16">
-        No instrument data available.
-      </div>
-    );
+    return <div className="text-center text-gray-600 py-16">{t("noData")}</div>;
   }
 
   const formattedPrice = formatPrice(instrument.price);
@@ -65,23 +64,26 @@ const InstrumentDetails = ({ instrument }: InstrumentDetailsProps) => {
           </p>
 
           <div className="text-gray-700 text-lg mb-2">
-            <span className="font-semibold">Manufacturer:</span>{" "}
+            <span className="font-semibold">{t("manufacturer")}:</span>{" "}
             {instrument.manufacturer}
           </div>
           <div className="text-gray-700 text-lg mb-6">
-            <span className="font-semibold">Type:</span> {instrument.type}
+            <span className="font-semibold">{t("type")}:</span>{" "}
+            {instrument.type}
           </div>
           <button
             onClick={handleShowContacts}
             className="btn-base w-full bg-green-600 text-white py-3 rounded-lg text-lg hover:bg-green-700 transition duration-300"
           >
-            Show Seller Contacts
+            {t("showContacts")}
           </button>
         </div>
       </div>
       <div className="p-8 pt-0 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
         <div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-3">Description</h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-3">
+            {t("description")}
+          </h3>
           <p className="text-gray-800 text-base leading-relaxed w-full overflow-hidden break-all whitespace-normal">
             {instrument.description}
           </p>
@@ -90,16 +92,18 @@ const InstrumentDetails = ({ instrument }: InstrumentDetailsProps) => {
           {instrument.properties && instrument.properties.length > 0 && (
             <>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Specifications
+                {t("specifications")}
               </h3>
               <ul className="list-disc list-inside text-gray-700 space-y-3">
                 {instrument.properties.map((prop, index) => (
                   <li key={index}>
-                    <span className="font-semibold">{prop.label}:</span>{" "}
+                    <span className="font-semibold">
+                      {t(`instrumentForm:${prop.label}`)}:
+                    </span>{" "}
                     {typeof prop.value === "boolean"
                       ? prop.value
-                        ? "Yes"
-                        : "No"
+                        ? t("instrumentDetails:yes")
+                        : t("instrumentDetails:no")
                       : String(prop.value)}
                   </li>
                 ))}

@@ -7,10 +7,13 @@ import { useCategoriesStore } from "@/features/instrumentCategories/store";
 import type { InstrumentResponseModel } from "@/shared/types/instrument";
 import type { PaginatedModel } from "@/shared/types/pagination";
 import InstrumentSearchForm from "@/features/instruments/ui/InstrumentSearchForm";
+import { useTranslation } from "react-i18next";
 
 const InstrumentListPage = () => {
   const { typeId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const { t } = useTranslation(["instrumentListPage", "categories"]);
 
   const instrumentTypes = useCategoriesStore((state) => state.instrumentTypes);
 
@@ -37,10 +40,18 @@ const InstrumentListPage = () => {
 
   const noInstrumentsFound = items.length === 0;
 
+  const displayTypeName = typeId ? typeId.replace(/-/g, " ") : "";
+
+  const translatedCategoryName = typeId
+    ? t(`categories:instrumentTypes.${displayTypeName}`)
+    : "";
+
   return (
     <div className="container mx-auto px-4 py-8 flex flex-col min-h-[calc(100vh-200px)]">
       <h1 className="mb-8 capitalize">
-        {typeId?.replace(/-/g, " ") || "All"} Instruments
+        {t("instrumentListPage:instrumentTypeTitle", {
+          type: translatedCategoryName,
+        })}
       </h1>
       <div className="flex flex-col md:flex-row gap-8 flex-grow">
         <div className="md:w-1/4 lg:w-1/5 flex-shrink-0">
@@ -55,8 +66,9 @@ const InstrumentListPage = () => {
           {noInstrumentsFound ? (
             <div className="flex justify-center items-center py-16">
               <p className="text-xl text-gray-600">
-                No {typeId?.replace(/-/g, " ") || "all"} instruments found
-                matching your criteria.
+                {t("instrumentListPage:noInstrumentsFound", {
+                  type: translatedCategoryName,
+                })}
               </p>
             </div>
           ) : (

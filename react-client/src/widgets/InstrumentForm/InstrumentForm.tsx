@@ -21,6 +21,7 @@ import { TextInputField } from "@/shared/ui/Fields/TextInputField";
 import { TextareaField } from "@/shared/ui/Fields/TextareaField";
 import { SelectInputField } from "@/shared/ui/Fields/SelectInputField";
 import { CheckboxInputField } from "@/shared/ui/Fields/CheckboxInputField";
+import { useTranslation } from "react-i18next";
 
 interface InstrumentFormProps {
   formSchema: FormFieldDescriptorResponseModel[];
@@ -72,9 +73,10 @@ const InstrumentForm = ({
     instrument?.photoModels ?? []
   );
   const navigate = useNavigate();
+  const { t } = useTranslation("instrumentForm");
 
   const initialValues = buildInitialValues(formSchema, instrument);
-  const validationSchema = buildYupSchema(formSchema);
+  const validationSchema = buildYupSchema(formSchema, t);
 
   type FormValues = typeof initialValues;
 
@@ -108,18 +110,18 @@ const InstrumentForm = ({
 
       if (instrument) {
         await updateInstrument(instrument.id, payload);
-        toast.success("Instrument successfully updated");
+        toast.success(t("successUpdate"));
         navigate(`/instruments/${instrument.id}`);
       } else {
         console.log(payload);
         const created = await createInstrument(payload);
-        toast.success("Instrument successfully created!");
+        toast.success(t("successCreate"));
         resetForm();
         setSelectedFiles([]);
         navigate(`/instruments/${created.id}`);
       }
     } catch (error) {
-      toast.error("An error occurred");
+      toast.error(t("errorOccurred"));
     } finally {
       setSubmitting(false);
     }
@@ -177,13 +179,13 @@ const InstrumentForm = ({
             return (
               <div key={field.name} className="flex flex-col gap-1">
                 <label htmlFor={field.name} className="form-label">
-                  {field.label}
+                  {t(field.labelKey)}
                   {field.isRequired && <span className="text-red-500">*</span>}
                 </label>
                 {field.type === "text" && (
                   <TextInputField
                     name={field.name}
-                    placeholder={field.placeholder}
+                    placeholder={t(field.placeholderKey ?? "")}
                     minLength={minLength}
                     maxLength={maxLength}
                   />
@@ -191,7 +193,7 @@ const InstrumentForm = ({
                 {field.type === "decimal" && (
                   <DecimalInputField
                     name={field.name}
-                    placeholder={field.placeholder}
+                    placeholder={t(field.placeholderKey ?? "")}
                     minValue={minValue}
                     maxValue={maxValue}
                   />
@@ -199,7 +201,7 @@ const InstrumentForm = ({
                 {field.type === "integer" && (
                   <IntegerInputField
                     name={field.name}
-                    placeholder={field.placeholder}
+                    placeholder={t(field.placeholderKey ?? "")}
                     minValue={minValue}
                     maxValue={maxValue}
                   />
@@ -207,7 +209,7 @@ const InstrumentForm = ({
                 {field.type === "textarea" && (
                   <TextareaField
                     name={field.name}
-                    placeholder={field.placeholder}
+                    placeholder={t(field.placeholderKey ?? "")}
                     minLength={minLength}
                     maxLength={maxLength}
                   />
@@ -215,8 +217,13 @@ const InstrumentForm = ({
                 {field.type === "select" && (
                   <SelectInputField
                     name={field.name}
-                    label={field.label}
-                    options={field.options}
+                    label={t(field.labelKey) ?? ""}
+                    placeholder={t(field.placeholderKey ?? "")}
+                    options={
+                      field.optionKeys && field.optionKeys.length > 0
+                        ? field.optionKeys.map((key) => t(key))
+                        : field.options ?? []
+                    }
                   />
                 )}
                 {field.type === "checkbox" && (
@@ -245,11 +252,11 @@ const InstrumentForm = ({
           >
             {isSubmitting
               ? instrument
-                ? "Updating..."
-                : "Creating..."
+                ? t("updating")
+                : t("creating")
               : instrument
-              ? "Update Listing"
-              : "Create Listing"}
+              ? t("updateListing")
+              : t("createListing")}
           </button>
         </Form>
       )}

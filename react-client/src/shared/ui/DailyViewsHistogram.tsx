@@ -1,16 +1,15 @@
 import type { InstrumentDailyStatResponseModel } from "../types/stats";
+import { useTranslation } from "react-i18next";
 
 interface DailyViewsHistogramProps {
   dailyStats: InstrumentDailyStatResponseModel[];
 }
 
 const DailyViewsHistogram = ({ dailyStats }: DailyViewsHistogramProps) => {
+  const { t, i18n } = useTranslation("dailyViewsHistogram");
+
   if (dailyStats.length === 0) {
-    return (
-      <div className="text-center text-gray-500 py-4">
-        No daily view data available.
-      </div>
-    );
+    return <div className="text-center text-gray-500 py-4">{t("noData")}</div>;
   }
 
   const maxDailyViews = Math.max(
@@ -22,7 +21,7 @@ const DailyViewsHistogram = ({ dailyStats }: DailyViewsHistogramProps) => {
 
   return (
     <div className="mb-4">
-      <h4 className="font-semibold text-gray-800 mb-3">Daily Views</h4>
+      <h4 className="font-semibold text-gray-800 mb-3">{t("title")}</h4>
       <div className="flex justify-around items-end h-36 bg-gray-50 p-2 rounded-md border border-gray-200">
         {dailyStats
           .sort(
@@ -44,7 +43,7 @@ const DailyViewsHistogram = ({ dailyStats }: DailyViewsHistogramProps) => {
                   height: `${stat.views * histogramBarHeightUnit}px`,
                   minHeight: stat.views > 0 ? "5px" : "0",
                 }}
-                title={`${new Date(stat.date).toLocaleDateString("en-US", {
+                title={`${new Date(stat.date).toLocaleDateString(undefined, {
                   month: "short",
                   day: "numeric",
                   year: "numeric",
@@ -55,7 +54,7 @@ const DailyViewsHistogram = ({ dailyStats }: DailyViewsHistogramProps) => {
                 )}
               </div>
               <span className="text-xs text-gray-500 mt-1">
-                {new Date(stat.date).toLocaleDateString("en-US", {
+                {new Date(stat.date).toLocaleDateString(i18n.language, {
                   day: "numeric",
                   month: "short",
                 })}

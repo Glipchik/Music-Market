@@ -1,6 +1,7 @@
 import React from "react";
 import ImagePreview from "./ImagePreview";
 import type { PhotoModel } from "../types/instrument";
+import { useTranslation } from "react-i18next";
 
 interface FileUploadProps {
   selectedFiles: File[];
@@ -17,6 +18,8 @@ const FileUpload = ({
   initialPhotos,
   onRemoveInitialPhoto,
 }: FileUploadProps) => {
+  const { t } = useTranslation("fileUpload");
+
   const previews = [
     ...(initialPhotos?.map((photo, index) => ({
       key: `initial-${photo.photoName}-${index}`,
@@ -38,7 +41,7 @@ const FileUpload = ({
         htmlFor="images"
         className="block text-sm font-medium text-gray-700 mb-1"
       >
-        Upload Images
+        {t("uploadImages")}
       </label>
       <input
         id="images"

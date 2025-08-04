@@ -5,18 +5,20 @@ import noImage from "@/assets/no-image.jpg";
 import type { UserInstrumentResponseModel } from "../model/types";
 import { formatPrice } from "@/shared/lib/formatters/formatPrice";
 import ConfirmationModal from "@/shared/ui/ConfirmationModal";
+import { useTranslation } from "react-i18next";
 
 interface MyListingCardProps {
   instrument: UserInstrumentResponseModel;
 }
 
 const MyListingCard = ({ instrument }: MyListingCardProps) => {
+  const { t } = useTranslation("myListings");
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const submit = useSubmit();
 
-  const imageUrl: string =
+  const imageUrl =
     instrument.photoUrls && instrument.photoUrls.length > 0
       ? instrument.photoUrls[0]
       : noImage;
@@ -46,13 +48,12 @@ const MyListingCard = ({ instrument }: MyListingCardProps) => {
   return (
     <div
       className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all 
-      duration-300 overflow-hidden flex flex-col sm:flex-row border border-gray-100"
+    duration-300 overflow-hidden flex flex-col sm:flex-row border border-gray-100"
     >
       <div
         onClick={handleCardClick}
-        className="w-full h-48 sm:w-64 sm:h-auto flex-shrink-0 cursor-pointer overflow-hidden
-        rounded-t-xl sm:rounded-l-xl sm:rounded-t-none
-        flex items-center justify-center bg-gray-50 group-hover:scale-[1.02] transition-transform duration-300"
+        className="w-full h-48 sm:w-64 sm:h-auto flex-shrink-0 cursor-pointer overflow-hidden rounded-t-xl sm:rounded-l-xl 
+        sm:rounded-t-none flex items-center justify-center bg-gray-50 group-hover:scale-[1.02] transition-transform duration-300"
       >
         <img
           className="w-full max-h-60 object-contain"
@@ -63,7 +64,8 @@ const MyListingCard = ({ instrument }: MyListingCardProps) => {
       <div className="p-5 flex flex-col justify-between flex-grow">
         <div>
           <h3
-            className="text-2xl font-bold text-gray-900 mb-2 break-words leading-tight hover:text-indigo-700 cursor-pointer transition-colors duration-200"
+            className="text-2xl font-bold text-gray-900 mb-2 break-words leading-tight 
+            hover:text-indigo-700 cursor-pointer transition-colors duration-200"
             onClick={handleCardClick}
           >
             {instrument.name}
@@ -83,13 +85,13 @@ const MyListingCard = ({ instrument }: MyListingCardProps) => {
               <p className="font-bold text-gray-800 text-xl">
                 {instrument.totalStats?.views || 0}
               </p>
-              <p className="text-sm">Views</p>
+              <p className="text-sm">{t("views")}</p>
             </div>
             <div className="flex flex-col items-center">
               <p className="font-bold text-gray-800 text-xl">
                 {instrument.totalStats?.contactViews || 0}
               </p>
-              <p className="text-sm">Contact Views</p>
+              <p className="text-sm">{t("contactViews")}</p>
             </div>
           </div>
           <div className="mb-4">
@@ -103,7 +105,7 @@ const MyListingCard = ({ instrument }: MyListingCardProps) => {
               hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50
               transition-colors duration-200"
             >
-              Edit
+              {t("edit")}
             </Link>
             <Form
               method="post"
@@ -119,7 +121,7 @@ const MyListingCard = ({ instrument }: MyListingCardProps) => {
                 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50
                 transition-colors duration-200"
               >
-                Delete
+                {t("delete")}
               </button>
             </Form>
           </div>
@@ -129,8 +131,8 @@ const MyListingCard = ({ instrument }: MyListingCardProps) => {
         isOpen={isModalOpen}
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
-        title="Delete Listing"
-        message={`Are you sure you want to delete "${instrument.name}"? This action cannot be undone.`}
+        title={t("deleteConfirmTitle")}
+        message={t("deleteConfirmMessage", { name: instrument.name })}
       />
     </div>
   );

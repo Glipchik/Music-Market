@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import type { Category } from "../store/types";
+import { useTranslation } from "react-i18next";
 
 interface CategoryCardProps {
   category: Category;
 }
 
 const CategoryCard = ({ category }: CategoryCardProps) => {
-  const { value, label, iconPath } = category;
+  const { value, labelKey, iconPath } = category;
+  const { t } = useTranslation("categories");
 
   return (
     <Link
@@ -16,11 +18,11 @@ const CategoryCard = ({ category }: CategoryCardProps) => {
       {iconPath && (
         <img
           src={iconPath}
-          alt={`${label} icon`}
+          alt={`${t(labelKey)} icon`}
           className="w-32 h-32 mb-4 object-contain transition-transform duration-300 group-hover:scale-120"
         />
       )}
-      <h3>{label}</h3>
+      <h3>{t(labelKey)}</h3>
     </Link>
   );
 };
