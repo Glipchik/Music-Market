@@ -1,0 +1,67 @@
+name: CI for ASP.NET Core Monorepo
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  filter-changed:
+    runs-on: ubuntu-latest
+    outputs:
+      solutions: ${{ steps.set-output.outputs.solutions }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Filter changed microservices
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            analytics:
+              - 'AnalyticsService/**'
+            instrument:
+              - 'InstrumentService/**'
+
+      - name: Set solutions output
+        id: set-output
+        run: |
+          solutions_json="["
+
+          if [ "${{ steps.filter.outputs.analytics }}" = "true" ]; then
+            solutions_json+="\"AnalyticsService/AnalyticsService.sln\","
+          fi
+          if [ "${{ steps.filter.outputs.instrument }}" = "true" ]; then
+            solutions_json+="\"InstrumentService/InstrumentService.sln\","
+          fi
+
+          solutions_json=${solutions_json%,}
+          solutions_json+="]"
+
+          echo "solutions=$solutions_json" >> $GITHUB_OUTPUT
+
+  build-and-test:
+    needs: filter-changed
+    if: needs.filter-changed.outputs.solutions != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        solution: ${{ fromJson(needs.filter-changed.outputs.solutions) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.404"
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ matrix.solution }}
+
+      - name: Build
+        run: dotnet build ${{ matrix.solution }} --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test ${{ matrix.solution }} --no-build --configuration Release --verbosity normal
