@@ -4,7 +4,7 @@ using InstrumentService.IntegrationTests.Factories;
 namespace InstrumentService.IntegrationTests.Extensions;
 
 public static class WebApplicationFactoryExtensions
-{ 
+{
     public static HttpClient CreateAuthenticatedClient(this CustomWebApplicationFactory factory, string userId)
     {
         var client = factory.CreateClient();

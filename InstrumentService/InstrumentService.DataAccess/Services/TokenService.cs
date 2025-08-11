@@ -6,9 +6,11 @@ using Microsoft.Extensions.Options;
 
 namespace InstrumentService.DataAccess.Services;
 
-public class TokenService(HttpClient httpClient, IOptions<ClientCredentialsOptions> clientCredentialsOptions) : ITokenService
+public class TokenService(HttpClient httpClient, IOptions<ClientCredentialsOptions> clientCredentialsOptions)
+    : ITokenService
 {
     private readonly ClientCredentialsOptions _clientCredentialsOptionsValue = clientCredentialsOptions.Value;
+
     public async Task<TokenResponseModel> GetAccessTokenAsync(CancellationToken cancellationToken)
     {
         var disco = await httpClient.GetDiscoveryDocumentAsync(cancellationToken: cancellationToken);
@@ -17,7 +19,7 @@ public class TokenService(HttpClient httpClient, IOptions<ClientCredentialsOptio
         {
             throw new Exception($"Discovery document request failed: {disco.Error}");
         }
-        
+
         var tokenResponse = await httpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
         {
             Address = disco.TokenEndpoint,
@@ -30,7 +32,7 @@ public class TokenService(HttpClient httpClient, IOptions<ClientCredentialsOptio
         {
             throw new Exception($"Token request failed: {tokenResponse.Error}");
         }
-        
+
         if (string.IsNullOrWhiteSpace(tokenResponse.AccessToken))
         {
             throw new InvalidOperationException("Access token is null or empty.");

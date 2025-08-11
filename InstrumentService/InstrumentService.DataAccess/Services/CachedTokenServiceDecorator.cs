@@ -12,11 +12,12 @@ public class CachedTokenServiceDecorator(
     IOptions<RedisOptions> redisOptions) : ITokenService
 {
     private readonly RedisOptions _redisOptionsValue = redisOptions.Value;
+
     public async Task<TokenResponseModel> GetAccessTokenAsync(CancellationToken cancellationToken)
     {
         var cachedToken = await distributedCache
             .GetStringAsync(_redisOptionsValue.TokenCacheOptions.CacheKey, cancellationToken);
-        
+
         if (!string.IsNullOrWhiteSpace(cachedToken))
         {
             return new TokenResponseModel(cachedToken, 0);

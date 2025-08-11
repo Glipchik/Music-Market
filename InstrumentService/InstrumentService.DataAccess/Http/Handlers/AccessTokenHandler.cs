@@ -27,7 +27,7 @@ public class AccessTokenHandler(ITokenService tokenService) : DelegatingHandler
         if (response.StatusCode != HttpStatusCode.Unauthorized) return response;
 
         await tokenService.InvalidateCachedTokenAsync(cancellationToken);
-        
+
         throw new UnauthorizedAccessException(
             "Access denied after refreshing token. The token might be invalid or insufficient.");
     }
