@@ -52,7 +52,7 @@ public class InstrumentFormMetadataService(IInstrumentFormMetadataRepository ins
         }
 
         var fields = specificMetadata.Fields;
-        var fieldLabels = fields.Select(field => new FieldLabelModel(field.Name, field.LabelKey)).ToList();
+        var fieldLabels = fields.Select(field => new FieldLabelModel(field.Name, field.Label)).ToList();
 
         return fieldLabels;
     }
