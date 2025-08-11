@@ -65,3 +65,22 @@ jobs:
 
       - name: Run tests
         run: dotnet test ${{ matrix.solution }} --no-build --configuration Release --verbosity normal
+
+  style-checking:
+    needs: filter-changed
+    if: needs.filter-changed.outputs.solutions != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        solution: ${{ fromJson(needs.filter-changed.outputs.solutions) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.404"
+
+      - name: Run code format check
+        run: dotnet format ${{ matrix.solution }} --verify-no-changes
