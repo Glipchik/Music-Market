@@ -41,32 +41,7 @@ jobs:
 
           echo "solutions=$solutions_json" >> $GITHUB_OUTPUT
 
-  build-and-test:
-    needs: filter-changed
-    if: needs.filter-changed.outputs.solutions != '[]'
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        solution: ${{ fromJson(needs.filter-changed.outputs.solutions) }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "8.0.404"
-
-      - name: Restore dependencies
-        run: dotnet restore ${{ matrix.solution }}
-
-      - name: Build
-        run: dotnet build ${{ matrix.solution }} --no-restore --configuration Release
-
-      - name: Run tests
-        run: dotnet test ${{ matrix.solution }} --no-build --configuration Release --verbosity normal
-
-  style-checking:
+  format-build-test:
     needs: filter-changed
     if: needs.filter-changed.outputs.solutions != '[]'
     runs-on: ubuntu-latest
@@ -84,3 +59,12 @@ jobs:
 
       - name: Run code format check
         run: dotnet format ${{ matrix.solution }} --verify-no-changes
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ matrix.solution }}
+
+      - name: Build
+        run: dotnet build ${{ matrix.solution }} --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test ${{ matrix.solution }} --no-build --configuration Release --verbosity normal
