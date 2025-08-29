@@ -43,13 +43,14 @@ public class InstrumentFormMetadataService(IInstrumentFormMetadataRepository ins
     public async Task<List<FieldLabelModel>> GetFieldLabelsForSpecificTypeAsync(string specificInstrumentType,
         CancellationToken cancellationToken)
     {
-        var specificMetadata = await instrumentFormMetadataRepository.GetByIdAsync(specificInstrumentType, cancellationToken);
+        var specificMetadata =
+            await instrumentFormMetadataRepository.GetByIdAsync(specificInstrumentType, cancellationToken);
 
         if (specificMetadata is null)
         {
             throw new NotFoundException(ErrorMessages.SpecificFormMetadataNotFound(specificInstrumentType));
         }
-        
+
         var fields = specificMetadata.Fields;
         var fieldLabels = fields.Select(field => new FieldLabelModel(field.Name, field.Label)).ToList();
 

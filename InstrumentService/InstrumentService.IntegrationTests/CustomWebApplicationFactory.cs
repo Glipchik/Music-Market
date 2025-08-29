@@ -36,7 +36,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>, IA
         .WithUsername("guest")
         .WithPassword("guest")
         .Build();
-    
+
     private readonly MinioContainer _minioContainer = new MinioBuilder()
         .WithImage("minio/minio")
         .WithPortBinding(9000, true)
@@ -44,8 +44,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>, IA
         .WithUsername(MinioTestConstants.MinioUsername)
         .WithPassword(MinioTestConstants.MinioPassword)
         .Build();
-    
-    
+
+
     private const string TestDatabaseName = "InstrumentDb";
     public IMongoClient MongoClient { get; private set; } = null!;
     public IMinioClient MinioClient { get; private set; } = null!;
@@ -86,12 +86,12 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>, IA
 
         var mappedPort = _minioContainer.GetMappedPublicPort(9000);
         MinioEndpoint = $"localhost:{mappedPort}";
-        
+
         MinioClient = new MinioClient()
             .WithEndpoint(_minioContainer.Hostname, mappedPort)
             .WithCredentials(MinioTestConstants.MinioUsername, MinioTestConstants.MinioPassword)
             .Build();
-        
+
         var bucketExists = await MinioClient.BucketExistsAsync(
             new BucketExistsArgs().WithBucket(MinioTestConstants.MinioTestBucket));
 
@@ -100,7 +100,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>, IA
             await MinioClient.MakeBucketAsync(
                 new MakeBucketArgs().WithBucket(MinioTestConstants.MinioTestBucket));
         }
-        
+
         MongoClient = new MongoClient(_mongoDbContainer.GetConnectionString());
         HttpClient = CreateClient();
     }
@@ -119,13 +119,13 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>, IA
         Environment.SetEnvironmentVariable("RabbitMqOptions:Host", _rabbitMqContainer.GetConnectionString());
         Environment.SetEnvironmentVariable("RabbitMqOptions:User", "guest");
         Environment.SetEnvironmentVariable("RabbitMqOptions:Password", "guest");
-        
+
         Environment.SetEnvironmentVariable("MinioOptions:Endpoint", MinioEndpoint);
         Environment.SetEnvironmentVariable("MinioOptions:AccessKey", MinioTestConstants.MinioUsername);
         Environment.SetEnvironmentVariable("MinioOptions:SecretKey", MinioTestConstants.MinioPassword);
         Environment.SetEnvironmentVariable("MinioOptions:Host", $"http://{MinioEndpoint}");
         Environment.SetEnvironmentVariable("MinioOptions:BucketName", MinioTestConstants.MinioTestBucket);
-        
+
 
         builder.ConfigureTestServices(services =>
         {
@@ -150,7 +150,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>, IA
             services.AddMassTransitTestHarness(configurator =>
             {
                 configurator.AddConsumer<InstrumentCreatedConsumer>();
-                
+
                 configurator.AddConsumer<InstrumentDeletedConsumer>();
                 configurator.AddConsumer<InstrumentViewedConsumer>();
 

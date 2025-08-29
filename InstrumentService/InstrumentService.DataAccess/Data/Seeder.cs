@@ -320,7 +320,13 @@ public class Seeder(
                     DefaultValue = "Standard Kit",
                     Options =
                     [
-                        "Standard Kit", "Fusion Kit", "Bop Kit", "Shell Pack", "Snare Drum", "Bass Drum", "Tom",
+                        "Standard Kit",
+                        "Fusion Kit",
+                        "Bop Kit",
+                        "Shell Pack",
+                        "Snare Drum",
+                        "Bass Drum",
+                        "Tom",
                         "Floor Tom"
                     ],
                     Placeholder = "Select drum configuration"

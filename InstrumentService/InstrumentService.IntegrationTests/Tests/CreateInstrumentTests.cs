@@ -92,7 +92,7 @@ public class CreateInstrumentTests(CustomWebApplicationFactory factory) : Instru
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
-    
+
     [Fact]
     public async Task CreateInstrument_ShouldReturnInternalServerError_WhenRequestBodyHasNoTypeField()
     {

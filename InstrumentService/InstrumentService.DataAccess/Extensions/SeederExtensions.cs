@@ -10,7 +10,7 @@ public static class SeederExtensions
     {
         using var scope = app.ApplicationServices.CreateScope();
         var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
-        
+
         await seeder.SeedBaseMetadataAsync();
         await seeder.SeedPianoMetadataAsync();
         await seeder.SeedGuitarMetadataAsync();
